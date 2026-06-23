@@ -230,6 +230,38 @@
                 chatBox.scrollTop = chatBox.scrollHeight;
             }, 1500);
         }
+        // Baza manzili (O'sha siz yaratgan link)
+const DB_URL = "https://nexaanimebot-default-rtdb.firebaseio.com/anime_data.json";
+
+// Sahifa yuklanganda bazadan ma'lumotni olib kelish
+function loadAnimeData() {
+    fetch(DB_URL)
+        .then(response => response.json())
+        .then(data => {
+            const chatBox = document.getElementById("chat-box"); // Chat oynangizning ID si
+            chatBox.innerHTML = ""; // Avvalgi yozuvlarni tozalash
+
+            // Baza ichidagi ma'lumotlarni aylantirib ekranga chiqarish
+            for (let key in data) {
+                let anime = data[key];
+                chatBox.innerHTML += `
+                    <div class="message">
+                        <b>Anime:</b> ${anime.title}<br>
+                        <b>Mavsum:</b> ${anime.season}<br>
+                        <b>Qism:</b> ${anime.episode}<br>
+                        <a href="${anime.link}">Ko'rish uchun bosing</a>
+                    </div>
+                    <hr>
+                `;
+            }
+        })
+        .catch(error => console.error("Xatolik:", error));
+}
+
+// Har 5 soniyada bazani yangilab turish (yangi anime qo'shilsa avtomatik chiqadi)
+setInterval(loadAnimeData, 5000);
+loadAnimeData(); // Birinchi marta yuklanganda ishga tushirish
+                                                       
     </script>
 </body>
 </html>
