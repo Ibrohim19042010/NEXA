@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NEXA - Anime Olamiga Yo'l</title>
-    <!-- Telegram SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome (Ikonkalar uchun) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -24,7 +21,6 @@
 </head>
 <body class="select-none">
 
-    <!-- HEADER -->
     <header class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 p-4 border-b border-red-900/50 flex justify-between items-center">
         <div class="text-2xl font-black text-red-500 neon-text tracking-widest">NEXA</div>
         <div class="flex items-center gap-2">
@@ -35,18 +31,14 @@
         </div>
     </header>
 
-    <!-- ASOSIY QISM (TABS) -->
     <main class="pt-20 px-4">
         
-        <!-- 1. KATALOG (Animelar ro'yxati) -->
         <section id="tab-home" class="tab-content active">
             <h2 class="text-xl font-bold mb-4 border-l-4 border-red-500 pl-2">So'nggi Animelar</h2>
             <div class="grid grid-cols-2 gap-4" id="anime-list">
-                <!-- JS orqali to'ldiriladi -->
-            </div>
+                </div>
         </section>
 
-        <!-- 2. VIKTORINA (Savol-javob) -->
         <section id="tab-quiz" class="tab-content">
             <h2 class="text-xl font-bold mb-4 border-l-4 border-red-500 pl-2">NEXA Viktorina</h2>
             <div id="quiz-container" class="bg-zinc-900/50 p-5 rounded-2xl neon-border">
@@ -57,22 +49,22 @@
             </div>
         </section>
 
-        <!-- 3. CHAT (Muloqot) -->
         <section id="tab-chat" class="tab-content h-[70vh] flex flex-col">
-            <h2 class="text-xl font-bold mb-2 border-l-4 border-red-500 pl-2">Umumiy Chat</h2>
+            <h2 class="text-xl font-bold mb-2 border-l-4 border-red-500 pl-2">NEXA AI Chat</h2>
             <div id="chat-messages" class="flex-1 bg-zinc-900/30 rounded-xl p-3 overflow-y-auto flex flex-col gap-3 neon-border mb-3">
                 <div class="bg-zinc-800 p-2 rounded-lg rounded-tl-none self-start max-w-[80%]">
                     <p class="text-xs text-red-400 font-bold">Tizim</p>
-                    <p class="text-sm">NEXA chatiga xush kelibsiz! Bu yerda boshqa animeshniklar bilan muloqot qilishingiz mumkin.</p>
+                    <p class="text-sm">NEXA bazasiga xush kelibsiz! Bu yerda AI yordamida qo'shilgan animelar chiqadi.</p>
                 </div>
+                <div id="firebase-messages" class="flex flex-col gap-3"></div>
             </div>
+            
             <div class="flex gap-2">
                 <input type="text" id="chat-input" placeholder="Xabar yozing..." class="flex-1 bg-zinc-800 rounded-xl px-4 py-2 outline-none focus:ring-1 focus:ring-red-500">
                 <button onclick="sendMessage()" class="bg-red-600 w-10 rounded-xl flex items-center justify-center"><i class="fas fa-paper-plane"></i></button>
             </div>
         </section>
 
-        <!-- 4. PROFIL -->
         <section id="tab-profile" class="tab-content">
             <div class="flex flex-col items-center mt-8">
                 <div id="profile-avatar" class="w-24 h-24 rounded-full bg-zinc-800 border-2 border-red-500 neon-border flex items-center justify-center text-3xl font-bold mb-4">
@@ -94,7 +86,6 @@
 
     </main>
 
-    <!-- BOTTOM NAVIGATION -->
     <nav class="fixed bottom-0 w-full bg-zinc-950 border-t border-zinc-800 flex justify-around p-3 pb-5 z-50">
         <button onclick="switchTab('home')" class="nav-btn text-red-500 flex flex-col items-center gap-1 transition" id="nav-home">
             <i class="fas fa-home text-xl"></i><span class="text-[10px]">Katalog</span>
@@ -110,7 +101,6 @@
         </button>
     </nav>
 
-    <!-- JAVASCRIPT MANTIQ -->
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
@@ -146,7 +136,9 @@
             document.getElementById(`nav-${tabName}`).classList.add('text-red-500');
         }
 
-        // BAZA: Animelar ro'yxati (Google yoki bazadan tortiladiganga taqlid)
+        // -----------------------------------------
+        // 1. KATALOG (Original dizayn saqlab qolindi)
+        // -----------------------------------------
         const animes = [
             { title: "Zulmat Qotili", img: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&auto=format&fit=crop&q=60", ep: "24-qism", type: "Jangari" },
             { title: "Hujumkor Titanlar", img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=60", ep: "To'liq", type: "Fantastika" },
@@ -154,7 +146,6 @@
             { title: "Sehrgarlar Jangi", img: "https://images.unsplash.com/photo-1621445582352-70b3967cb7c3?w=500&auto=format&fit=crop&q=60", ep: "Davom etmoqda", type: "Sarguzasht" }
         ];
 
-        // Animelarni ekranga chiqarish
         const animeList = document.getElementById('anime-list');
         animes.forEach(anime => {
             animeList.innerHTML += `
@@ -169,7 +160,9 @@
             `;
         });
 
-        // VIKTORINA TIZIMI
+        // -----------------------------------------
+        // 2. VIKTORINA TIZIMI
+        // -----------------------------------------
         const questions = [
             { q: "O'lim daftariga ism yozilsa nima bo'ladi?", opts: ["Uxlab qoladi", "Boyib ketadi", "Vafot etadi"], ans: 2 },
             { q: "Narutoning eng katta orzusi nima edi?", opts: ["Boy bo'lish", "Hokage bo'lish", "Dunyoni yo'q qilish"], ans: 1 }
@@ -193,16 +186,20 @@
 
         function checkAnswer(selected, correct) {
             if(selected === correct) {
-                tg.HapticFeedback.notificationOccurred('success');
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
                 currentQ++;
                 startQuiz();
             } else {
-                tg.HapticFeedback.notificationOccurred('error');
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
                 tg.showAlert("Notog'ri javob! Qaytadan urinib ko'ring.");
             }
         }
 
-        // CHAT TIZIMI (Simulyatsiya)
+        // -----------------------------------------
+        // 3. CHAT VA FIREBASE TIZIMI
+        // -----------------------------------------
+        
+        // Oddiy foydalanuvchi xabarini yozishi (simulyatsiya)
         function sendMessage() {
             const input = document.getElementById('chat-input');
             const msg = input.value.trim();
@@ -217,51 +214,52 @@
             `;
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
-            tg.HapticFeedback.impactOccurred('light');
-            
-            // Botdan avtomatik javob taqlidi
-            setTimeout(() => {
-                chatBox.innerHTML += `
-                    <div class="bg-zinc-800 p-2 rounded-lg rounded-tl-none self-start max-w-[80%] mt-2">
-                        <p class="text-xs text-zinc-400 font-bold">NEXA Bot</p>
-                        <p class="text-sm">Yaxshi fikr! Lekin tizim to'liq ishga tushishi uchun bazaga ulanishimiz kutilmoqda.</p>
-                    </div>
-                `;
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, 1500);
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
         }
-        // Baza manzili (O'sha siz yaratgan link)
-const DB_URL = "https://nexaanimebot-default-rtdb.firebaseio.com/anime_data.json";
 
-// Sahifa yuklanganda bazadan ma'lumotni olib kelish
-function loadAnimeData() {
-    fetch(DB_URL)
-        .then(response => response.json())
-        .then(data => {
-            const chatBox = document.getElementById("chat-box"); // Chat oynangizning ID si
-            chatBox.innerHTML = ""; // Avvalgi yozuvlarni tozalash
+        // FIREBASE DANGI MA'LUMOTLARNI TORTISH (Har 5 soniyada)
+        const DB_URL = "https://nexaanimebot-default-rtdb.firebaseio.com/anime_data.json";
 
-            // Baza ichidagi ma'lumotlarni aylantirib ekranga chiqarish
-            for (let key in data) {
-                let anime = data[key];
-                chatBox.innerHTML += `
-                    <div class="message">
-                        <b>Anime:</b> ${anime.title}<br>
-                        <b>Mavsum:</b> ${anime.season}<br>
-                        <b>Qism:</b> ${anime.episode}<br>
-                        <a href="${anime.link}">Ko'rish uchun bosing</a>
-                    </div>
-                    <hr>
-                `;
-            }
-        })
-        .catch(error => console.error("Xatolik:", error));
-}
+        function loadAnimeData() {
+            fetch(DB_URL)
+                .then(response => response.json())
+                .then(data => {
+                    const fbBox = document.getElementById("firebase-messages");
+                    if (data) {
+                        fbBox.innerHTML = ""; // Faqat firebase qutisini tozalaymiz (foydalanuvchi xabari o'chib ketmasligi uchun)
+                        
+                        for (let key in data) {
+                            let anime = data[key];
+                            fbBox.innerHTML += `
+                                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500 self-start max-w-[90%] mt-2 shadow-[0_0_10px_rgba(239,68,68,0.2)]">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <i class="fas fa-robot text-red-500 text-xs"></i>
+                                        <p class="text-[10px] text-red-500 font-bold uppercase">NEXA AI BAZASI</p>
+                                    </div>
+                                    <p class="text-sm font-bold text-white">${anime.title || 'Nomsiz'}</p>
+                                    <div class="text-xs text-zinc-400 mt-1">
+                                        <p>Mavsum: ${anime.season || '-'}</p>
+                                        <p>Qism: ${anime.episode || '-'}</p>
+                                    </div>
+                                    <a href="${anime.link || '#'}" target="_blank" class="mt-2 inline-block bg-red-600/20 text-red-400 border border-red-600/50 px-3 py-1 rounded text-xs font-bold transition hover:bg-red-600 hover:text-white">
+                                        <i class="fas fa-play mr-1"></i> Tomosha qilish
+                                    </a>
+                                </div>
+                            `;
+                        }
+                        // Avtomatik pastga tushirish
+                        const chatBox = document.getElementById('chat-messages');
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                })
+                .catch(error => console.error("Firebase xatosi:", error));
+        }
 
-// Har 5 soniyada bazani yangilab turish (yangi anime qo'shilsa avtomatik chiqadi)
-setInterval(loadAnimeData, 5000);
-loadAnimeData(); // Birinchi marta yuklanganda ishga tushirish
-                                                       
+        // Baza har 8 soniyada yangilanib turadi
+        setInterval(loadAnimeData, 8000);
+        loadAnimeData(); // Dastlabki ishga tushirish
+
     </script>
 </body>
-</html>
+    </html>
+    
