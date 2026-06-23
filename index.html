@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NEXA - Anime Olamiga Yo'l</title>
+    <!-- Telegram SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome (Ikonkalar uchun) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { background-color: #050505; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding-bottom: 70px; }
+        .neon-text { text-shadow: 0 0 10px rgba(239, 68, 68, 0.8), 0 0 20px rgba(239, 68, 68, 0.4); }
+        .neon-border { box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); border: 1px solid rgba(239, 68, 68, 0.5); }
+        .tab-content { display: none; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Scrollbar yashirish */
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="select-none">
+
+    <!-- HEADER -->
+    <header class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 p-4 border-b border-red-900/50 flex justify-between items-center">
+        <div class="text-2xl font-black text-red-500 neon-text tracking-widest">NEXA</div>
+        <div class="flex items-center gap-2">
+            <span id="header-username" class="text-sm text-zinc-300 font-medium">Animeshnik</span>
+            <div id="header-avatar" class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-xs font-bold shadow-[0_0_10px_rgba(239,68,68,0.5)]">
+                A
+            </div>
+        </div>
+    </header>
+
+    <!-- ASOSIY QISM (TABS) -->
+    <main class="pt-20 px-4">
+        
+        <!-- 1. KATALOG (Animelar ro'yxati) -->
+        <section id="tab-home" class="tab-content active">
+            <h2 class="text-xl font-bold mb-4 border-l-4 border-red-500 pl-2">So'nggi Animelar</h2>
+            <div class="grid grid-cols-2 gap-4" id="anime-list">
+                <!-- JS orqali to'ldiriladi -->
+            </div>
+        </section>
+
+        <!-- 2. VIKTORINA (Savol-javob) -->
+        <section id="tab-quiz" class="tab-content">
+            <h2 class="text-xl font-bold mb-4 border-l-4 border-red-500 pl-2">NEXA Viktorina</h2>
+            <div id="quiz-container" class="bg-zinc-900/50 p-5 rounded-2xl neon-border">
+                <p id="quiz-question" class="text-lg font-medium mb-4">Tayyormisiz?</p>
+                <div id="quiz-options" class="flex flex-col gap-3">
+                    <button onclick="startQuiz()" class="bg-red-600 hover:bg-red-700 py-3 rounded-xl font-bold transition">Boshlash</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. CHAT (Muloqot) -->
+        <section id="tab-chat" class="tab-content h-[70vh] flex flex-col">
+            <h2 class="text-xl font-bold mb-2 border-l-4 border-red-500 pl-2">Umumiy Chat</h2>
+            <div id="chat-messages" class="flex-1 bg-zinc-900/30 rounded-xl p-3 overflow-y-auto flex flex-col gap-3 neon-border mb-3">
+                <div class="bg-zinc-800 p-2 rounded-lg rounded-tl-none self-start max-w-[80%]">
+                    <p class="text-xs text-red-400 font-bold">Tizim</p>
+                    <p class="text-sm">NEXA chatiga xush kelibsiz! Bu yerda boshqa animeshniklar bilan muloqot qilishingiz mumkin.</p>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <input type="text" id="chat-input" placeholder="Xabar yozing..." class="flex-1 bg-zinc-800 rounded-xl px-4 py-2 outline-none focus:ring-1 focus:ring-red-500">
+                <button onclick="sendMessage()" class="bg-red-600 w-10 rounded-xl flex items-center justify-center"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </section>
+
+        <!-- 4. PROFIL -->
+        <section id="tab-profile" class="tab-content">
+            <div class="flex flex-col items-center mt-8">
+                <div id="profile-avatar" class="w-24 h-24 rounded-full bg-zinc-800 border-2 border-red-500 neon-border flex items-center justify-center text-3xl font-bold mb-4">
+                    ?
+                </div>
+                <h2 id="profile-name" class="text-2xl font-bold">Foydalanuvchi</h2>
+                <p id="profile-id" class="text-zinc-500 text-sm mb-6">ID: 000000</p>
+
+                <div class="w-full bg-zinc-900 rounded-2xl p-4 flex justify-between items-center mb-4">
+                    <span class="text-zinc-300">Daraja:</span>
+                    <span class="text-red-500 font-bold">Hokage</span>
+                </div>
+                <div class="w-full bg-zinc-900 rounded-2xl p-4 flex justify-between items-center">
+                    <span class="text-zinc-300">NEXA Tangalar:</span>
+                    <span class="text-yellow-500 font-bold"><i class="fas fa-coins mr-1"></i> 150</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="fixed bottom-0 w-full bg-zinc-950 border-t border-zinc-800 flex justify-around p-3 pb-5 z-50">
+        <button onclick="switchTab('home')" class="nav-btn text-red-500 flex flex-col items-center gap-1 transition" id="nav-home">
+            <i class="fas fa-home text-xl"></i><span class="text-[10px]">Katalog</span>
+        </button>
+        <button onclick="switchTab('quiz')" class="nav-btn text-zinc-500 flex flex-col items-center gap-1 transition" id="nav-quiz">
+            <i class="fas fa-gamepad text-xl"></i><span class="text-[10px]">Viktorina</span>
+        </button>
+        <button onclick="switchTab('chat')" class="nav-btn text-zinc-500 flex flex-col items-center gap-1 transition" id="nav-chat">
+            <i class="fas fa-comments text-xl"></i><span class="text-[10px]">Chat</span>
+        </button>
+        <button onclick="switchTab('profile')" class="nav-btn text-zinc-500 flex flex-col items-center gap-1 transition" id="nav-profile">
+            <i class="fas fa-user text-xl"></i><span class="text-[10px]">Profil</span>
+        </button>
+    </nav>
+
+    <!-- JAVASCRIPT MANTIQ -->
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+        tg.setHeaderColor('#000000');
+        tg.setBackgroundColor('#050505');
+
+        let currentUser = { first_name: "Animeshnik", id: "123456" };
+
+        // Telegramdan ma'lumotlarni avtomatik olish
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            currentUser = tg.initDataUnsafe.user;
+        }
+
+        // Profilni to'ldirish
+        const initial = currentUser.first_name.charAt(0).toUpperCase();
+        document.getElementById('header-username').innerText = currentUser.first_name;
+        document.getElementById('header-avatar').innerText = initial;
+        document.getElementById('profile-name').innerText = currentUser.first_name;
+        document.getElementById('profile-id').innerText = `ID: ${currentUser.id}`;
+        document.getElementById('profile-avatar').innerText = initial;
+
+        // TABS (Sahifalarni almashtirish)
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('text-red-500');
+                el.classList.add('text-zinc-500');
+            });
+            document.getElementById(`nav-${tabName}`).classList.remove('text-zinc-500');
+            document.getElementById(`nav-${tabName}`).classList.add('text-red-500');
+        }
+
+        // BAZA: Animelar ro'yxati (Google yoki bazadan tortiladiganga taqlid)
+        const animes = [
+            { title: "Zulmat Qotili", img: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&auto=format&fit=crop&q=60", ep: "24-qism", type: "Jangari" },
+            { title: "Hujumkor Titanlar", img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=60", ep: "To'liq", type: "Fantastika" },
+            { title: "O'lim Daftari", img: "https://images.unsplash.com/photo-1613375922659-cbcc4663df86?w=500&auto=format&fit=crop&q=60", ep: "37-qism", type: "Detektiv" },
+            { title: "Sehrgarlar Jangi", img: "https://images.unsplash.com/photo-1621445582352-70b3967cb7c3?w=500&auto=format&fit=crop&q=60", ep: "Davom etmoqda", type: "Sarguzasht" }
+        ];
+
+        // Animelarni ekranga chiqarish
+        const animeList = document.getElementById('anime-list');
+        animes.forEach(anime => {
+            animeList.innerHTML += `
+                <div class="bg-zinc-900 rounded-xl overflow-hidden relative" onclick="tg.showAlert('Bu anime tez orada serverga yuklanadi!')">
+                    <div class="h-32 bg-zinc-800 bg-cover bg-center" style="background-image: url('${anime.img}')"></div>
+                    <div class="absolute top-2 right-2 bg-red-600 text-xs px-2 py-1 rounded-md font-bold">${anime.ep}</div>
+                    <div class="p-2">
+                        <h3 class="font-bold text-sm truncate">${anime.title}</h3>
+                        <p class="text-xs text-zinc-400">${anime.type}</p>
+                    </div>
+                </div>
+            `;
+        });
+
+        // VIKTORINA TIZIMI
+        const questions = [
+            { q: "O'lim daftariga ism yozilsa nima bo'ladi?", opts: ["Uxlab qoladi", "Boyib ketadi", "Vafot etadi"], ans: 2 },
+            { q: "Narutoning eng katta orzusi nima edi?", opts: ["Boy bo'lish", "Hokage bo'lish", "Dunyoni yo'q qilish"], ans: 1 }
+        ];
+        let currentQ = 0;
+
+        function startQuiz() {
+            if(currentQ >= questions.length) {
+                document.getElementById('quiz-question').innerText = "Tabriklaymiz! Siz hamma savolga javob berdingiz.";
+                document.getElementById('quiz-options').innerHTML = '<button onclick="currentQ=0;startQuiz()" class="bg-red-600 py-3 rounded-xl font-bold w-full">Qaytadan</button>';
+                return;
+            }
+            let q = questions[currentQ];
+            document.getElementById('quiz-question').innerText = q.q;
+            let optionsHtml = '';
+            q.opts.forEach((opt, index) => {
+                optionsHtml += `<button onclick="checkAnswer(${index}, ${q.ans})" class="bg-zinc-800 hover:bg-zinc-700 py-3 rounded-xl transition text-left px-4 border border-zinc-700">${opt}</button>`;
+            });
+            document.getElementById('quiz-options').innerHTML = optionsHtml;
+        }
+
+        function checkAnswer(selected, correct) {
+            if(selected === correct) {
+                tg.HapticFeedback.notificationOccurred('success');
+                currentQ++;
+                startQuiz();
+            } else {
+                tg.HapticFeedback.notificationOccurred('error');
+                tg.showAlert("Notog'ri javob! Qaytadan urinib ko'ring.");
+            }
+        }
+
+        // CHAT TIZIMI (Simulyatsiya)
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if(!msg) return;
+
+            const chatBox = document.getElementById('chat-messages');
+            chatBox.innerHTML += `
+                <div class="bg-red-900/40 border border-red-500/30 p-2 rounded-lg rounded-tr-none self-end max-w-[80%] mt-2">
+                    <p class="text-xs text-red-300 font-bold">${currentUser.first_name}</p>
+                    <p class="text-sm">${msg}</p>
+                </div>
+            `;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+            tg.HapticFeedback.impactOccurred('light');
+            
+            // Botdan avtomatik javob taqlidi
+            setTimeout(() => {
+                chatBox.innerHTML += `
+                    <div class="bg-zinc-800 p-2 rounded-lg rounded-tl-none self-start max-w-[80%] mt-2">
+                        <p class="text-xs text-zinc-400 font-bold">NEXA Bot</p>
+                        <p class="text-sm">Yaxshi fikr! Lekin tizim to'liq ishga tushishi uchun bazaga ulanishimiz kutilmoqda.</p>
+                    </div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
