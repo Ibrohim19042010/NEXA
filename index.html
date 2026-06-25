@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NEXA - Anime Olamiga Yo'l</title>
+    <!-- Telegram SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome (Ikonkalar uchun) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        body { background-color: #050505; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding-bottom: 70px; }
+        body { background-color: #050505; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding-bottom: 80px; }
         .neon-text { text-shadow: 0 0 10px rgba(239, 68, 68, 0.8), 0 0 20px rgba(239, 68, 68, 0.4); }
         .neon-border { box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); border: 1px solid rgba(239, 68, 68, 0.5); }
-        .tab-content { display: none; animation: fadeIn 0.3s; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         /* Scrollbar yashirish */
@@ -21,6 +24,7 @@
 </head>
 <body class="select-none">
 
+    <!-- HEADER -->
     <header class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 p-4 border-b border-red-900/50 flex justify-between items-center">
         <div class="text-2xl font-black text-red-500 neon-text tracking-widest">NEXA</div>
         <div class="flex items-center gap-2">
@@ -31,14 +35,22 @@
         </div>
     </header>
 
+    <!-- ASOSIY QISM (TABS) -->
     <main class="pt-20 px-4">
         
+        <!-- 1. KATALOG (Animelar ro'yxati) -->
         <section id="tab-home" class="tab-content active">
             <h2 class="text-xl font-bold mb-4 border-l-4 border-red-500 pl-2">So'nggi Animelar</h2>
             <div class="grid grid-cols-2 gap-4" id="anime-list">
+                <!-- Bazadan keladigan barcha animelar shu yerga tushadi -->
+                <div class="col-span-2 text-center text-zinc-500 py-10" id="loading-spinner">
+                    <i class="fas fa-spinner fa-spin text-red-500 text-2xl mb-2"></i>
+                    <p>Animelar yuklanmoqda...</p>
                 </div>
+            </div>
         </section>
 
+        <!-- 2. VIKTORINA (Savol-javob) -->
         <section id="tab-quiz" class="tab-content">
             <h2 class="text-xl font-bold mb-4 border-l-4 border-red-500 pl-2">NEXA Viktorina</h2>
             <div id="quiz-container" class="bg-zinc-900/50 p-5 rounded-2xl neon-border">
@@ -49,22 +61,22 @@
             </div>
         </section>
 
+        <!-- 3. CHAT (Muloqot) -->
         <section id="tab-chat" class="tab-content h-[70vh] flex flex-col">
-            <h2 class="text-xl font-bold mb-2 border-l-4 border-red-500 pl-2">NEXA AI Chat</h2>
+            <h2 class="text-xl font-bold mb-2 border-l-4 border-red-500 pl-2">Umumiy Chat</h2>
             <div id="chat-messages" class="flex-1 bg-zinc-900/30 rounded-xl p-3 overflow-y-auto flex flex-col gap-3 neon-border mb-3">
                 <div class="bg-zinc-800 p-2 rounded-lg rounded-tl-none self-start max-w-[80%]">
                     <p class="text-xs text-red-400 font-bold">Tizim</p>
-                    <p class="text-sm">NEXA bazasiga xush kelibsiz! Bu yerda AI yordamida qo'shilgan animelar chiqadi.</p>
+                    <p class="text-sm">NEXA chatiga xush kelibsiz! Bu yerda boshqa animeshniklar bilan muloqot qilishingiz mumkin.</p>
                 </div>
-                <div id="firebase-messages" class="flex flex-col gap-3"></div>
             </div>
-            
             <div class="flex gap-2">
                 <input type="text" id="chat-input" placeholder="Xabar yozing..." class="flex-1 bg-zinc-800 rounded-xl px-4 py-2 outline-none focus:ring-1 focus:ring-red-500">
                 <button onclick="sendMessage()" class="bg-red-600 w-10 rounded-xl flex items-center justify-center"><i class="fas fa-paper-plane"></i></button>
             </div>
         </section>
 
+        <!-- 4. PROFIL -->
         <section id="tab-profile" class="tab-content">
             <div class="flex flex-col items-center mt-8">
                 <div id="profile-avatar" class="w-24 h-24 rounded-full bg-zinc-800 border-2 border-red-500 neon-border flex items-center justify-center text-3xl font-bold mb-4">
@@ -77,15 +89,73 @@
                     <span class="text-zinc-300">Daraja:</span>
                     <span class="text-red-500 font-bold">Hokage</span>
                 </div>
-                <div class="w-full bg-zinc-900 rounded-2xl p-4 flex justify-between items-center">
+                <div class="w-full bg-zinc-900 rounded-2xl p-4 flex justify-between items-center mb-6">
                     <span class="text-zinc-300">NEXA Tangalar:</span>
                     <span class="text-yellow-500 font-bold"><i class="fas fa-coins mr-1"></i> 150</span>
                 </div>
+
+                <!-- Test rejimi yoki Admin tekshiruvi uchun maxsus tugma -->
+                <div class="w-full bg-red-950/20 border border-red-900/50 rounded-2xl p-4 flex flex-col gap-3">
+                    <p class="text-xs text-zinc-400">Dasturchi sozlamalari (Ibrohim uchun):</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm">Admin Rejimini Yoqish:</span>
+                        <button onclick="toggleAdminOverride()" id="admin-override-btn" class="bg-zinc-800 px-4 py-1.5 rounded-lg text-xs font-bold border border-zinc-700">Yoqilmagan</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. YANGI ANIME QO'SHISH (ADMIN PANEL) -->
+        <section id="tab-add" class="tab-content">
+            <h2 class="text-xl font-bold mb-4 border-l-4 border-red-500 pl-2">Yangi Anime Qo'shish</h2>
+            <div class="bg-zinc-900/50 p-5 rounded-2xl neon-border flex flex-col gap-4">
+                
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">Anime Nomi:</label>
+                    <input type="text" id="add-title" placeholder="Masalan: Naruto" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">Mavsum:</label>
+                        <input type="text" id="add-season" placeholder="1-mavsum" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-zinc-400 mb-1">Qism:</label>
+                        <input type="text" id="add-episode" placeholder="12-qism" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">Janri / Turi:</label>
+                    <select id="add-genre" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500 text-zinc-300">
+                        <option value="Jangari">Jangari</option>
+                        <option value="Sarguzasht">Sarguzasht</option>
+                        <option value="Fantastika">Fantastika</option>
+                        <option value="Detektiv">Detektiv</option>
+                        <option value="Drama">Drama</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">Video Havolasi (Telegram/YouTube/Mp4):</label>
+                    <input type="text" id="add-link" placeholder="https://t.me/nexaanime/..." class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">Muqova (Avtomatik muqova rasmi tushadi, xohlasangiz havola qo'ying):</label>
+                    <input type="text" id="add-cover" placeholder="Bo'sh qolsa, nomidan qidirib topiladi" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 outline-none focus:border-red-500 text-xs">
+                </div>
+
+                <button onclick="submitNewAnime()" class="w-full bg-red-600 hover:bg-red-700 py-3.5 rounded-xl font-bold transition mt-2 shadow-[0_0_15px_rgba(239,68,68,0.4)]">
+                    <i class="fas fa-plus-circle mr-2"></i> Bazaga Yuklash
+                </button>
             </div>
         </section>
 
     </main>
 
+    <!-- BOTTOM NAVIGATION -->
     <nav class="fixed bottom-0 w-full bg-zinc-950 border-t border-zinc-800 flex justify-around p-3 pb-5 z-50">
         <button onclick="switchTab('home')" class="nav-btn text-red-500 flex flex-col items-center gap-1 transition" id="nav-home">
             <i class="fas fa-home text-xl"></i><span class="text-[10px]">Katalog</span>
@@ -99,8 +169,13 @@
         <button onclick="switchTab('profile')" class="nav-btn text-zinc-500 flex flex-col items-center gap-1 transition" id="nav-profile">
             <i class="fas fa-user text-xl"></i><span class="text-[10px]">Profil</span>
         </button>
+        <!-- ADMIN QO'SHISH TUGMASI (Dastlab yashirin) -->
+        <button onclick="switchTab('add')" class="nav-btn text-zinc-500 hidden flex-col items-center gap-1 transition" id="nav-add">
+            <i class="fas fa-plus-circle text-xl"></i><span class="text-[10px]">Qo'shish</span>
+        </button>
     </nav>
 
+    <!-- JAVASCRIPT MANTIQ -->
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
@@ -108,9 +183,15 @@
         tg.setHeaderColor('#000000');
         tg.setBackgroundColor('#050505');
 
-        let currentUser = { first_name: "Animeshnik", id: "123456" };
+        // SIZNING SHAXSIY TELEGRAM ID RAQAMINGIZ
+        const ADMIN_ID = 7540734704;
+        let isAdmin = false;
 
-        // Telegramdan ma'lumotlarni avtomatik olish
+        // Firebase Realtime Database manzili
+        const DB_URL = "https://nexaanimebot-default-rtdb.firebaseio.com/anime_data.json";
+
+        // Telegramdan ma'lumotlarni olish
+        let currentUser = { first_name: "Ibrohim (Admin)", id: ADMIN_ID };
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             currentUser = tg.initDataUnsafe.user;
         }
@@ -123,6 +204,32 @@
         document.getElementById('profile-id').innerText = `ID: ${currentUser.id}`;
         document.getElementById('profile-avatar').innerText = initial;
 
+        // Admin ekanligini tekshirish
+        function checkAdminStatus() {
+            if (currentUser.id == ADMIN_ID || localStorage.getItem('admin_override') === 'true') {
+                isAdmin = true;
+                document.getElementById('nav-add').classList.remove('hidden');
+                document.getElementById('admin-override-btn').innerText = "Yoqilgan (Admin)";
+                document.getElementById('admin-override-btn').className = "bg-red-600 px-4 py-1.5 rounded-lg text-xs font-bold text-white border border-red-500 shadow-[0_0_10px_rgba(239,68,68,0.4)]";
+            } else {
+                isAdmin = false;
+                document.getElementById('nav-add').classList.add('hidden');
+                document.getElementById('admin-override-btn').innerText = "Yoqilmagan";
+                document.getElementById('admin-override-btn').className = "bg-zinc-800 px-4 py-1.5 rounded-lg text-xs font-bold border border-zinc-700";
+            }
+        }
+
+        // Test uchun adminlikni o'zgartirish (Profil qismida ishlaydi)
+        function toggleAdminOverride() {
+            const current = localStorage.getItem('admin_override') === 'true';
+            localStorage.setItem('admin_override', !current);
+            checkAdminStatus();
+            tg.HapticFeedback.impactOccurred('medium');
+        }
+
+        // Dastlabki tekshiruv
+        checkAdminStatus();
+
         // TABS (Sahifalarni almashtirish)
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -134,34 +241,163 @@
             });
             document.getElementById(`nav-${tabName}`).classList.remove('text-zinc-500');
             document.getElementById(`nav-${tabName}`).classList.add('text-red-500');
+            tg.HapticFeedback.selectionChanged();
         }
 
         // -----------------------------------------
-        // 1. KATALOG (Original dizayn saqlab qolindi)
+        // 1. ANIME MUQOVALARINI AVTO-TANLASH
         // -----------------------------------------
-        const animes = [
-            { title: "Zulmat Qotili", img: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&auto=format&fit=crop&q=60", ep: "24-qism", type: "Jangari" },
-            { title: "Hujumkor Titanlar", img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=60", ep: "To'liq", type: "Fantastika" },
-            { title: "O'lim Daftari", img: "https://images.unsplash.com/photo-1613375922659-cbcc4663df86?w=500&auto=format&fit=crop&q=60", ep: "37-qism", type: "Detektiv" },
-            { title: "Sehrgarlar Jangi", img: "https://images.unsplash.com/photo-1621445582352-70b3967cb7c3?w=500&auto=format&fit=crop&q=60", ep: "Davom etmoqda", type: "Sarguzasht" }
-        ];
-
-        const animeList = document.getElementById('anime-list');
-        animes.forEach(anime => {
-            animeList.innerHTML += `
-                <div class="bg-zinc-900 rounded-xl overflow-hidden relative" onclick="tg.showAlert('Bu anime tez orada serverga yuklanadi!')">
-                    <div class="h-32 bg-zinc-800 bg-cover bg-center" style="background-image: url('${anime.img}')"></div>
-                    <div class="absolute top-2 right-2 bg-red-600 text-xs px-2 py-1 rounded-md font-bold">${anime.ep}</div>
-                    <div class="p-2">
-                        <h3 class="font-bold text-sm truncate">${anime.title}</h3>
-                        <p class="text-xs text-zinc-400">${anime.type}</p>
-                    </div>
-                </div>
-            `;
-        });
+        function getAutoCoverImage(title, customUrl) {
+            if (customUrl && customUrl.trim() !== "") {
+                return customUrl;
+            }
+            const lower = title.toLowerCase();
+            if (lower.includes("naruto")) {
+                return "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=80";
+            }
+            if (lower.includes("titan") || lower.includes("attack on titan")) {
+                return "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&auto=format&fit=crop&q=80";
+            }
+            if (lower.includes("daftar") || lower.includes("death note") || lower.includes("o'lim")) {
+                return "https://images.unsplash.com/photo-1613375922659-cbcc4663df86?w=500&auto=format&fit=crop&q=80";
+            }
+            if (lower.includes("sehr") || lower.includes("jujutsu") || lower.includes("sehrgarlar")) {
+                return "https://images.unsplash.com/photo-1621445582352-70b3967cb7c3?w=500&auto=format&fit=crop&q=80";
+            }
+            if (lower.includes("one piece") || lower.includes("luff")) {
+                return "https://images.unsplash.com/photo-1601987177651-8edfe6c20009?w=500&auto=format&fit=crop&q=80";
+            }
+            if (lower.includes("qotili") || lower.includes("demon slayer") || lower.includes("tanjiro")) {
+                return "https://images.unsplash.com/photo-1541562232579-512a21360020?w=500&auto=format&fit=crop&q=80";
+            }
+            // Standart chiroyli anime cover
+            return "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=500&auto=format&fit=crop&q=80";
+        }
 
         // -----------------------------------------
-        // 2. VIKTORINA TIZIMI
+        // 2. BAZADAN ANIMELARNI KATALOGGA CHIQARISH
+        // -----------------------------------------
+        function loadCatalog() {
+            fetch(DB_URL)
+                .then(response => response.json())
+                .then(data => {
+                    const animeList = document.getElementById('anime-list');
+                    animeList.innerHTML = ""; // Tozalash
+
+                    // Agar bazada ma'lumot bo'lsa
+                    if (data) {
+                        for (let key in data) {
+                            let anime = data[key];
+                            // Agar ma'lumot kodi orqali kelgan bo'lsa (Python yoki Panel)
+                            let title = anime.title || anime.text || "Nomsiz Anime";
+                            let season = anime.season || "1-mavsum";
+                            let episode = anime.episode || "Davom etmoqda";
+                            let genre = anime.genre || "Janri noma'lum";
+                            let link = anime.link || "#";
+                            let cover = getAutoCoverImage(title, anime.cover);
+
+                            animeList.innerHTML += `
+                                <div class="bg-zinc-900 rounded-xl overflow-hidden relative border border-zinc-800 flex flex-col justify-between" onclick="openAnimeLink('${link}')">
+                                    <div class="h-36 bg-zinc-800 bg-cover bg-center" style="background-image: url('${cover}')"></div>
+                                    <div class="absolute top-2 right-2 bg-red-600 text-[10px] px-2 py-0.5 rounded-md font-black shadow-md">${episode}</div>
+                                    <div class="p-3">
+                                        <h3 class="font-bold text-sm truncate">${title}</h3>
+                                        <p class="text-[10px] text-zinc-400 mt-1">${season} | ${genre}</p>
+                                    </div>
+                                    <div class="p-3 pt-0">
+                                        <button class="w-full bg-red-600/10 border border-red-500/20 text-red-500 text-xs py-1.5 rounded-lg hover:bg-red-600 hover:text-white transition font-bold">
+                                            <i class="fas fa-play mr-1"></i> Tomosha qilish
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    } else {
+                        // Baza mutlaqo bo'sh bo'lgan holat uchun
+                        animeList.innerHTML = `
+                            <div class="col-span-2 text-center text-zinc-500 py-10">
+                                <i class="fas fa-folder-open text-3xl mb-2"></i>
+                                <p>Hozircha animelar yo'q. Admin bo'limidan qo'shing!</p>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(err => {
+                    console.error("Katalog yuklashda xato:", err);
+                    document.getElementById('anime-list').innerHTML = `<div class="col-span-2 text-center text-red-500">Xatolik yuz berdi!</div>`;
+                });
+        }
+
+        function openAnimeLink(link) {
+            if(link && link !== "#") {
+                tg.openLink(link);
+            } else {
+                tg.showAlert("Bu animening ko'rish havolasi yuklanmagan!");
+            }
+        }
+
+        // Katalog yuklanishi
+        loadCatalog();
+
+        // -----------------------------------------
+        // 3. ADMIN PANEL: BAZAGA ANIME QO'SHISH
+        // -----------------------------------------
+        function submitNewAnime() {
+            const title = document.getElementById('add-title').value.trim();
+            const season = document.getElementById('add-season').value.trim();
+            const episode = document.getElementById('add-episode').value.trim();
+            const genre = document.getElementById('add-genre').value;
+            const link = document.getElementById('add-link').value.trim();
+            const cover = document.getElementById('add-cover').value.trim();
+
+            if (!title) {
+                tg.showAlert("⚠️ Iltimos, anime nomini kiriting!");
+                return;
+            }
+
+            const animeData = {
+                title: title,
+                season: season || "1-mavsum",
+                episode: episode || "To'liq",
+                genre: genre,
+                link: link || "#",
+                cover: cover
+            };
+
+            // Firebasega POST so'rovi yuborish
+            fetch(DB_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(animeData)
+            })
+            .then(res => {
+                if(res.ok) {
+                    tg.HapticFeedback.notificationOccurred('success');
+                    tg.showAlert("🎉 Urra! Yangi anime muvaffaqiyatli yuklandi va katalogga qo'shildi!");
+                    
+                    // Formani tozalash
+                    document.getElementById('add-title').value = "";
+                    document.getElementById('add-season').value = "";
+                    document.getElementById('add-episode').value = "";
+                    document.getElementById('add-link').value = "";
+                    document.getElementById('add-cover').value = "";
+
+                    // Katalog va sahifani yangilash
+                    loadCatalog();
+                    switchTab('home'); // Home yorlig'iga qaytarish
+                } else {
+                    tg.showAlert("❌ Bazaga yozishda xatolik yuz berdi.");
+                }
+            })
+            .catch(err => {
+                tg.showAlert(`❌ Xatolik: ${err}`);
+            });
+        }
+
+        // -----------------------------------------
+        // 4. VIKTORINA TIZIMI
         // -----------------------------------------
         const questions = [
             { q: "O'lim daftariga ism yozilsa nima bo'ladi?", opts: ["Uxlab qoladi", "Boyib ketadi", "Vafot etadi"], ans: 2 },
@@ -186,20 +422,18 @@
 
         function checkAnswer(selected, correct) {
             if(selected === correct) {
-                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                tg.HapticFeedback.notificationOccurred('success');
                 currentQ++;
                 startQuiz();
             } else {
-                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                tg.HapticFeedback.notificationOccurred('error');
                 tg.showAlert("Notog'ri javob! Qaytadan urinib ko'ring.");
             }
         }
 
         // -----------------------------------------
-        // 3. CHAT VA FIREBASE TIZIMI
+        // 5. CHAT TIZIMI (Simulyatsiya)
         // -----------------------------------------
-        
-        // Oddiy foydalanuvchi xabarini yozishi (simulyatsiya)
         function sendMessage() {
             const input = document.getElementById('chat-input');
             const msg = input.value.trim();
@@ -214,52 +448,22 @@
             `;
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+            tg.HapticFeedback.impactOccurred('light');
+            
+            // Botdan avtomatik javob taqlidi
+            setTimeout(() => {
+                chatBox.innerHTML += `
+                    <div class="bg-zinc-800 p-2 rounded-lg rounded-tl-none self-start max-w-[80%] mt-2">
+                        <p class="text-xs text-zinc-400 font-bold">NEXA Bot</p>
+                        <p class="text-sm">Barcha ma'lumotlar real vaqt rejimida Firebase bilan sinxronizatsiya qilinmoqda!</p>
+                    </div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1500);
         }
 
-        // FIREBASE DANGI MA'LUMOTLARNI TORTISH (Har 5 soniyada)
-        const DB_URL = "https://nexaanimebot-default-rtdb.firebaseio.com/anime_data.json";
-
-        function loadAnimeData() {
-            fetch(DB_URL)
-                .then(response => response.json())
-                .then(data => {
-                    const fbBox = document.getElementById("firebase-messages");
-                    if (data) {
-                        fbBox.innerHTML = ""; // Faqat firebase qutisini tozalaymiz (foydalanuvchi xabari o'chib ketmasligi uchun)
-                        
-                        for (let key in data) {
-                            let anime = data[key];
-                            fbBox.innerHTML += `
-                                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500 self-start max-w-[90%] mt-2 shadow-[0_0_10px_rgba(239,68,68,0.2)]">
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <i class="fas fa-robot text-red-500 text-xs"></i>
-                                        <p class="text-[10px] text-red-500 font-bold uppercase">NEXA AI BAZASI</p>
-                                    </div>
-                                    <p class="text-sm font-bold text-white">${anime.title || 'Nomsiz'}</p>
-                                    <div class="text-xs text-zinc-400 mt-1">
-                                        <p>Mavsum: ${anime.season || '-'}</p>
-                                        <p>Qism: ${anime.episode || '-'}</p>
-                                    </div>
-                                    <a href="${anime.link || '#'}" target="_blank" class="mt-2 inline-block bg-red-600/20 text-red-400 border border-red-600/50 px-3 py-1 rounded text-xs font-bold transition hover:bg-red-600 hover:text-white">
-                                        <i class="fas fa-play mr-1"></i> Tomosha qilish
-                                    </a>
-                                </div>
-                            `;
-                        }
-                        // Avtomatik pastga tushirish
-                        const chatBox = document.getElementById('chat-messages');
-                        chatBox.scrollTop = chatBox.scrollHeight;
-                    }
-                })
-                .catch(error => console.error("Firebase xatosi:", error));
-        }
-
-        // Baza har 8 soniyada yangilanib turadi
-        setInterval(loadAnimeData, 8000);
-        loadAnimeData(); // Dastlabki ishga tushirish
-
+        // Har 15 soniyada Katalogni avtomatik yangilab turish
+        setInterval(loadCatalog, 15000);
     </script>
 </body>
-    </html>
-    
+</html>
