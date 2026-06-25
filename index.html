@@ -35,11 +35,10 @@
     <!-- ASOSIY QISM -->
     <main class="pt-20 px-4">
         
-        <!-- 1. KATALOG (GURUHNING ASOSIY OYNASI) -->
+        <!-- 1. KATALOG -->
         <section id="tab-home" class="tab-content active">
             <h2 class="text-xl font-bold mb-4 border-l-4 border-red-500 pl-2">Barcha Animelar</h2>
             <div class="grid grid-cols-2 gap-4" id="anime-grouped-list">
-                <!-- Ma'lumotlar shu yerga tushadi -->
                 <div class="col-span-2 text-center text-zinc-500 py-10">Kutib turing...</div>
             </div>
         </section>
@@ -47,26 +46,35 @@
         <!-- 2. VIKTORINA -->
         <section id="tab-quiz" class="tab-content">
             <h2 class="text-xl font-bold mb-4 border-l-4 border-red-500 pl-2">NEXA Viktorina</h2>
-            <div class="bg-zinc-900/50 p-5 rounded-2xl neon-border">
-                <p id="quiz-question" class="text-lg font-medium mb-4">Viktorinaga tayyormisiz?</p>
-                <div id="quiz-options" class="flex flex-col gap-3">
-                    <button onclick="startQuiz()" class="bg-red-600 hover:bg-red-700 py-3 rounded-xl font-bold transition">Boshlash</button>
-                </div>
+            <div id="quiz-container" class="bg-zinc-900/50 p-5 rounded-2xl neon-border">
+                <p class="text-sm text-zinc-400 mb-4">O'z bilimingizni sinab ko'ring!</p>
+                <button onclick="loadNextQuiz()" class="w-full bg-red-600 hover:bg-red-700 py-3 rounded-xl font-bold transition">Boshlash</button>
             </div>
         </section>
 
-        <!-- 3. UMUMIY CHAT -->
+        <!-- 3. CHAT BO'LIMI (Umumiy va Shaxsiy ro'yxat) -->
         <section id="tab-chat" class="tab-content h-[70vh] flex flex-col">
-            <div class="flex justify-between items-center mb-2 border-l-4 border-red-500 pl-2">
-                <h2 class="text-xl font-bold">Umumiy Chat</h2>
-                <span class="text-[10px] text-green-400 font-bold bg-green-400/10 px-2 py-1 rounded">Jonli efir</span>
+            <div class="flex bg-zinc-900 rounded-lg p-1 mb-3 border border-zinc-800">
+                <button onclick="toggleChatType('global')" id="btn-chat-global" class="flex-1 py-2 bg-red-600 rounded-md text-sm font-bold shadow-lg transition-all">Umumiy</button>
+                <button onclick="toggleChatType('inbox')" id="btn-chat-inbox" class="flex-1 py-2 text-zinc-400 rounded-md text-sm font-bold transition-all">Shaxsiy</button>
             </div>
-            <div id="global-chat-messages" class="flex-1 bg-zinc-900/30 rounded-xl p-3 overflow-y-auto flex flex-col gap-3 neon-border mb-3 scroll-smooth">
-                <div class="text-center text-zinc-500 text-sm mt-10">Chat yuklanmoqda...</div>
+
+            <!-- UMUMIY CHAT -->
+            <div id="chat-view-global" class="flex-1 flex flex-col overflow-hidden">
+                <div id="global-chat-messages" class="flex-1 bg-zinc-900/30 rounded-xl p-3 overflow-y-auto flex flex-col gap-3 neon-border mb-3 scroll-smooth">
+                    <div class="text-center text-zinc-500 text-sm mt-10">Chat yuklanmoqda...</div>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="global-chat-input" placeholder="Hammaga xabar yozish..." class="flex-1 bg-zinc-800 rounded-xl px-4 py-2 outline-none focus:ring-1 focus:ring-red-500">
+                    <button onclick="sendGlobalMessage()" class="bg-red-600 w-10 rounded-xl flex items-center justify-center transition hover:bg-red-700"><i class="fas fa-paper-plane"></i></button>
+                </div>
             </div>
-            <div class="flex gap-2">
-                <input type="text" id="global-chat-input" placeholder="Hammaga xabar yozish..." class="flex-1 bg-zinc-800 rounded-xl px-4 py-2 outline-none focus:ring-1 focus:ring-red-500">
-                <button onclick="sendGlobalMessage()" class="bg-red-600 w-10 rounded-xl flex items-center justify-center transition hover:bg-red-700"><i class="fas fa-paper-plane"></i></button>
+
+            <!-- SHAXSIY CHATLAR RO'YXATI (INBOX) -->
+            <div id="chat-view-inbox" class="flex-1 overflow-y-auto hidden flex-col gap-2 bg-zinc-900/30 rounded-xl p-2 neon-border">
+                <div id="inbox-list" class="flex flex-col gap-2">
+                    <div class="text-center text-zinc-500 text-sm mt-10">Shaxsiy suhbatlar yuklanmoqda...</div>
+                </div>
             </div>
         </section>
 
@@ -76,31 +84,57 @@
                 <div id="profile-avatar" class="w-24 h-24 rounded-full bg-zinc-800 border-2 border-red-500 neon-border flex items-center justify-center text-3xl font-bold mb-4">?</div>
                 <h2 id="profile-name" class="text-2xl font-bold">Foydalanuvchi</h2>
                 <p id="profile-id" class="text-zinc-500 text-sm mb-6">ID: 000000</p>
-                <div class="w-full bg-red-950/20 border border-red-900/50 rounded-2xl p-4 flex flex-col gap-3">
-                    <p class="text-xs text-zinc-400">Admin imtiyozlari:</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm">Admin Rejim:</span>
-                        <button onclick="toggleAdminOverride()" id="admin-override-btn" class="bg-zinc-800 px-4 py-1.5 rounded-lg text-xs font-bold border border-zinc-700">Yoqilmagan</button>
+                
+                <div id="role-badge" class="mb-4 text-xs font-bold px-3 py-1 rounded-full bg-zinc-800 text-zinc-400">Oddiy Foydalanuvchi</div>
+
+                <!-- Asosiy Admin uchun Yordamchi qo'shish paneli -->
+                <div id="main-admin-panel" class="hidden w-full bg-red-950/20 border border-red-900/50 rounded-2xl p-4 flex-col gap-3 mt-4">
+                    <h3 class="text-sm font-bold text-red-500 border-b border-red-900/50 pb-2"><i class="fas fa-crown mr-1"></i> Asosiy Admin Paneli</h3>
+                    <p class="text-xs text-zinc-400">Yangi Yordamchi (Assistant) ID raqamini kiriting:</p>
+                    <div class="flex gap-2">
+                        <input type="number" id="new-assistant-id" placeholder="ID raqam (masalan: 123456789)" class="flex-1 bg-zinc-800 rounded-lg px-3 py-2 outline-none text-sm">
+                        <button onclick="addAssistant()" class="bg-red-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-red-700">Qo'shish</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 5. QO'SHISH (Faqat admin uchun) -->
+        <!-- 5. QO'SHISH (Admin va Yordamchilar uchun) -->
         <section id="tab-add" class="tab-content">
-            <h2 class="text-xl font-bold mb-4 border-l-4 border-red-500 pl-2">Yangi Anime/Qism Qo'shish</h2>
+            <h2 class="text-xl font-bold mb-4 border-l-4 border-red-500 pl-2">Bazaga Qo'shish</h2>
             <div class="bg-zinc-900/50 p-5 rounded-2xl neon-border flex flex-col gap-4">
-                <p class="text-xs text-zinc-400 mb-2">Diqqat! Agar bazada shunday nomli anime bor bo'lsa, bu qism avtomatik ravishda o'sha anime ichiga guruhlanadi.</p>
-                <div><label class="block text-xs text-zinc-400 mb-1">Anime Nomi (Masalan: Naruto):</label><input type="text" id="add-title" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div><label class="block text-xs text-zinc-400 mb-1">Mavsum:</label><input type="text" id="add-season" placeholder="1-mavsum" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
-                    <div><label class="block text-xs text-zinc-400 mb-1">Qism:</label><input type="text" id="add-episode" placeholder="1-qism" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
+                
+                <div>
+                    <label class="block text-xs text-zinc-400 mb-1">Turkum tanlang:</label>
+                    <select id="add-type" onchange="toggleAddForm()" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500 text-white">
+                        <option value="anime">Anime / Qism qo'shish</option>
+                        <option value="quiz">Viktorina savoli qo'shish</option>
+                    </select>
                 </div>
-                <div><label class="block text-xs text-zinc-400 mb-1">Janri / Turi:</label><input type="text" id="add-genre" placeholder="Jangari" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
-                <div><label class="block text-xs text-zinc-400 mb-1">Video Havolasi (.mp4, YouTube, h.k):</label><input type="text" id="add-link" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
-                <div><label class="block text-xs text-zinc-400 mb-1">Muqova Rasmi (havola):</label><input type="text" id="add-cover" placeholder="Avtomatik bo'lishi uchun bo'sh qoldiring" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
-                <button onclick="submitNewAnime()" class="w-full bg-red-600 hover:bg-red-700 py-3.5 rounded-xl font-bold transition mt-2 shadow-[0_0_15px_rgba(239,68,68,0.4)]">
-                    <i class="fas fa-plus-circle mr-2"></i> Bazaga Yuklash
+
+                <!-- ANIME FORMASI -->
+                <div id="form-anime" class="flex flex-col gap-3">
+                    <div><input type="text" id="add-title" placeholder="Anime Nomi (Masalan: Naruto)" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div><input type="text" id="add-season" placeholder="Mavsum" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
+                        <div><input type="text" id="add-episode" placeholder="Qism" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
+                    </div>
+                    <div><input type="text" id="add-genre" placeholder="Janri / Turi" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
+                    <div><input type="text" id="add-link" placeholder="Video Havolasi (.mp4, YouTube)" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
+                    <div><input type="text" id="add-cover" placeholder="Muqova Rasmi (ixtiyoriy)" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
+                </div>
+
+                <!-- QUIZ FORMASI -->
+                <div id="form-quiz" class="hidden flex flex-col gap-3">
+                    <div><input type="text" id="add-quiz-q" placeholder="Savolni kiriting..." class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
+                    <div><input type="text" id="add-quiz-a1" placeholder="1-Variant (To'g'ri javobni shu yerga yozing)" class="w-full bg-zinc-800 border border-green-900 rounded-xl px-4 py-2.5 outline-none focus:border-green-500"></div>
+                    <div><input type="text" id="add-quiz-a2" placeholder="2-Variant (Xato)" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
+                    <div><input type="text" id="add-quiz-a3" placeholder="3-Variant (Xato)" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 outline-none focus:border-red-500"></div>
+                    <p class="text-[10px] text-zinc-500">Ilova variantlar o'rnini avtomatik almashtirib ko'rsatadi.</p>
+                </div>
+
+                <button onclick="submitData()" class="w-full bg-red-600 hover:bg-red-700 py-3.5 rounded-xl font-bold transition mt-2 shadow-[0_0_15px_rgba(239,68,68,0.4)]">
+                    <i class="fas fa-upload mr-2"></i> Bazaga Yuklash
                 </button>
             </div>
         </section>
@@ -108,7 +142,8 @@
     </main>
 
     <!-- OVERLAYS (QO'SHIMCHA OYNALAR) -->
-    <!-- ANIME TAFSILOTLARI OYNASI -->
+    
+    <!-- ANIME TAFSILOTLARI -->
     <div id="anime-details-overlay" class="fixed inset-0 bg-black z-50 hidden flex-col overflow-y-auto transition-all">
         <div id="details-cover" class="w-full h-64 bg-zinc-800 bg-cover bg-center relative">
             <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
@@ -129,18 +164,18 @@
                 <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center font-bold" id="private-chat-avatar">U</div>
                 <div>
                     <h3 id="private-chat-name" class="font-bold text-white leading-tight">Foydalanuvchi</h3>
-                    <span class="text-[10px] text-green-400 font-medium">Shaxsiy suhbat (Yashirin)</span>
+                    <span class="text-[10px] text-green-400 font-medium">Shaxsiy suhbat</span>
                 </div>
             </div>
         </div>
         <div id="private-chat-messages" class="flex-1 bg-zinc-950 p-4 overflow-y-auto flex flex-col gap-3 scroll-smooth"></div>
         <div class="p-3 bg-zinc-900 border-t border-zinc-800 flex gap-2">
-            <input type="text" id="private-chat-input" placeholder="Shaxsiy xabar yozing..." class="flex-1 bg-zinc-800 rounded-xl px-4 py-2 outline-none focus:ring-1 focus:ring-red-500 text-sm">
+            <input type="text" id="private-chat-input" placeholder="Xabar yozing..." class="flex-1 bg-zinc-800 rounded-xl px-4 py-2 outline-none focus:ring-1 focus:ring-red-500 text-sm">
             <button onclick="sendPrivateMessage()" class="bg-red-600 w-10 h-10 rounded-xl flex items-center justify-center text-white"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
-    <!-- VIDEO PLEYER OYNASI -->
+    <!-- VIDEO PLEYER -->
     <div id="video-player-overlay" class="fixed inset-0 bg-black z-[70] hidden flex-col">
         <div class="p-4 flex justify-between items-center bg-zinc-900 border-b border-red-900/50">
             <div class="flex flex-col">
@@ -156,7 +191,7 @@
     <nav class="fixed bottom-0 w-full bg-zinc-950 border-t border-zinc-800 flex justify-around p-3 pb-5 z-40">
         <button onclick="switchTab('home')" class="nav-btn text-zinc-500 flex flex-col items-center gap-1 transition" id="nav-home"><i class="fas fa-home text-xl"></i><span class="text-[10px]">Katalog</span></button>
         <button onclick="switchTab('quiz')" class="nav-btn text-zinc-500 flex flex-col items-center gap-1 transition" id="nav-quiz"><i class="fas fa-gamepad text-xl"></i><span class="text-[10px]">Viktorina</span></button>
-        <button onclick="switchTab('chat')" class="nav-btn text-zinc-500 flex flex-col items-center gap-1 transition relative" id="nav-chat"><i class="fas fa-comments text-xl"></i><span class="text-[10px]">Chat</span></button>
+        <button onclick="switchTab('chat')" class="nav-btn text-zinc-500 flex flex-col items-center gap-1 transition" id="nav-chat"><i class="fas fa-comments text-xl"></i><span class="text-[10px]">Chat</span></button>
         <button onclick="switchTab('profile')" class="nav-btn text-zinc-500 flex flex-col items-center gap-1 transition" id="nav-profile"><i class="fas fa-user text-xl"></i><span class="text-[10px]">Profil</span></button>
         <button onclick="switchTab('add')" class="nav-btn text-zinc-500 hidden flex-col items-center gap-1 transition" id="nav-add"><i class="fas fa-plus-circle text-xl"></i><span class="text-[10px]">Qo'shish</span></button>
     </nav>
@@ -166,328 +201,338 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand(); tg.setHeaderColor('#000000'); tg.setBackgroundColor('#050505');
 
-        const ADMIN_ID = 7540734704;
+        // ROLLAR VA BAZA URL LARI
+        const MAIN_ADMIN_ID = 7540734704;
         const DB_BASE = "https://nexaanimebot-default-rtdb.firebaseio.com";
         const URL_ANIMES = `${DB_BASE}/anime_data.json`;
         const URL_GLOBAL_CHAT = `${DB_BASE}/chats/global.json`;
-
+        const URL_QUIZ = `${DB_BASE}/quiz_data.json`;
+        const URL_ASSISTANTS = `${DB_BASE}/assistants.json`;
+        
         let currentUser = { first_name: "Tashrif buyuruvchi", id: Math.floor(Math.random()*100000) };
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) currentUser = tg.initDataUnsafe.user;
 
+        // User ma'lumotlarini yuklash
         document.getElementById('header-username').innerText = currentUser.first_name;
         document.getElementById('header-avatar').innerText = currentUser.first_name.charAt(0).toUpperCase();
         document.getElementById('profile-name').innerText = currentUser.first_name;
         document.getElementById('profile-id').innerText = `ID: ${currentUser.id}`;
         document.getElementById('profile-avatar').innerText = currentUser.first_name.charAt(0).toUpperCase();
 
-        function checkAdmin() {
-            if (currentUser.id == ADMIN_ID || localStorage.getItem('admin_override') === 'true') {
-                document.getElementById('nav-add').classList.remove('hidden');
-                document.getElementById('admin-override-btn').innerText = "Yoqilgan (Admin)";
-                document.getElementById('admin-override-btn').classList.add('bg-red-600', 'text-white');
-            } else {
-                document.getElementById('nav-add').classList.add('hidden');
-                document.getElementById('admin-override-btn').innerText = "Yoqilmagan";
-                document.getElementById('admin-override-btn').classList.remove('bg-red-600', 'text-white');
-            }
-        }
-        function toggleAdminOverride() { localStorage.setItem('admin_override', !(localStorage.getItem('admin_override') === 'true')); checkAdmin(); tg.HapticFeedback.impactOccurred('medium'); }
-        checkAdmin();
+        let isMainAdmin = (currentUser.id == MAIN_ADMIN_ID);
+        let isAssistant = false;
+        let hasPrivileges = false;
 
-        // SAHIFANI ESLAB QOLISH (Tab Memory)
+        // ROLLAR VA ADMIN HUQUQLARINI TEKSHIRISH
+        function checkRoles() {
+            fetch(URL_ASSISTANTS).then(res => res.json()).then(data => {
+                if(data && data[currentUser.id]) isAssistant = true;
+                hasPrivileges = isMainAdmin || isAssistant;
+                
+                let badge = document.getElementById('role-badge');
+                if(isMainAdmin) {
+                    badge.innerHTML = `<i class="fas fa-crown text-yellow-500"></i> Asosiy Admin`;
+                    badge.classList.add('bg-red-900/50', 'text-red-400');
+                    document.getElementById('main-admin-panel').classList.remove('hidden');
+                    document.getElementById('main-admin-panel').classList.add('flex');
+                } else if(isAssistant) {
+                    badge.innerHTML = `<i class="fas fa-star text-blue-400"></i> Yordamchi (Assistant)`;
+                    badge.classList.add('bg-blue-900/50', 'text-blue-400');
+                }
+
+                if(hasPrivileges) document.getElementById('nav-add').classList.remove('hidden');
+            }).catch(e => console.log("Rollarni tekshirishda xatolik"));
+        }
+        checkRoles();
+
+        function addAssistant() {
+            let id = document.getElementById('new-assistant-id').value.trim();
+            if(!id) return;
+            fetch(URL_ASSISTANTS, {
+                method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ [id]: true })
+            }).then(() => {
+                tg.showAlert(`ID: ${id} Yordamchi qilib tayinlandi!`);
+                document.getElementById('new-assistant-id').value = '';
+            });
+        }
+
+        // TABS VA UI MANTIQI
         function switchTab(tabName) {
-            localStorage.setItem('nexa_last_tab', tabName); // Keshga saqlash
+            localStorage.setItem('nexa_last_tab', tabName);
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${tabName}`).classList.add('active');
             document.querySelectorAll('.nav-btn').forEach(el => { el.classList.remove('text-red-500'); el.classList.add('text-zinc-500'); });
             document.getElementById(`nav-${tabName}`).classList.remove('text-zinc-500'); document.getElementById(`nav-${tabName}`).classList.add('text-red-500');
             tg.HapticFeedback.selectionChanged();
         }
-        // Ilova ochilganda oxirgi sahifani ochish
         let lastTab = localStorage.getItem('nexa_last_tab') || 'home';
         switchTab(lastTab);
 
-        function getAutoCoverImage(title, customUrl) {
-            if (customUrl) return customUrl;
-            const lower = title.toLowerCase();
-            if (lower.includes("naruto")) return "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&q=80";
-            if (lower.includes("titan")) return "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&q=80";
-            return "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=500&q=80";
+        function toggleAddForm() {
+            let type = document.getElementById('add-type').value;
+            if(type === 'anime') {
+                document.getElementById('form-anime').classList.remove('hidden'); document.getElementById('form-anime').classList.add('flex');
+                document.getElementById('form-quiz').classList.add('hidden'); document.getElementById('form-quiz').classList.remove('flex');
+            } else {
+                document.getElementById('form-quiz').classList.remove('hidden'); document.getElementById('form-quiz').classList.add('flex');
+                document.getElementById('form-anime').classList.add('hidden'); document.getElementById('form-anime').classList.remove('flex');
+            }
         }
 
-        // ==========================================
-        // 1. ANIME KATALOGI (Kesh xotira bilan)
-        // ==========================================
-        let lastCatalogStr = "";
+        // MA'LUMOTLARNI YUKLASH (ANIME VA QUIZ)
+        function submitData() {
+            let type = document.getElementById('add-type').value;
+            if(type === 'anime') {
+                const title = document.getElementById('add-title').value.trim();
+                if (!title) { tg.showAlert("Anime nomi kerak!"); return; }
+                fetch(URL_ANIMES, {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        title: title, season: document.getElementById('add-season').value.trim(),
+                        episode: document.getElementById('add-episode').value.trim(), genre: document.getElementById('add-genre').value,
+                        link: document.getElementById('add-link').value.trim(), cover: document.getElementById('add-cover').value.trim()
+                    })
+                }).then(() => {
+                    tg.showAlert("Yangi anime qismi qo'shildi!");
+                    document.querySelectorAll('#form-anime input').forEach(inpt => inpt.value = '');
+                    lastCatalogStr = ""; loadCatalog(); switchTab('home');
+                });
+            } else {
+                const q = document.getElementById('add-quiz-q').value.trim();
+                const a1 = document.getElementById('add-quiz-a1').value.trim(); // To'g'ri javob doim a1
+                const a2 = document.getElementById('add-quiz-a2').value.trim();
+                const a3 = document.getElementById('add-quiz-a3').value.trim();
+                if(!q || !a1) { tg.showAlert("Savol va to'g'ri javobni kiriting!"); return; }
+                
+                fetch(URL_QUIZ, {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ question: q, correct: a1, wrong1: a2, wrong2: a3 })
+                }).then(() => {
+                    tg.showAlert("Viktorina savoli qo'shildi!");
+                    document.querySelectorAll('#form-quiz input').forEach(inpt => inpt.value = '');
+                    switchTab('quiz');
+                });
+            }
+        }
 
+        // ================== ANIME KATALOG ==================
+        let lastCatalogStr = "";
         function renderCatalogUI(data) {
             if(!data) return;
             const grouped = {};
             for (let key in data) {
-                let anime = data[key];
-                anime.firebaseKey = key;
-                let rawTitle = anime.title || "Nomsiz";
-                let standardTitle = rawTitle.trim().toUpperCase(); 
-                
-                if(!grouped[standardTitle]) {
-                    grouped[standardTitle] = { displayTitle: rawTitle, cover: getAutoCoverImage(rawTitle, anime.cover), episodes: [] };
-                }
+                let anime = data[key]; anime.firebaseKey = key;
+                let rawTitle = anime.title || "Nomsiz"; let standardTitle = rawTitle.trim().toUpperCase(); 
+                if(!grouped[standardTitle]) grouped[standardTitle] = { displayTitle: rawTitle, cover: anime.cover || "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=500&q=80", episodes: [] };
                 grouped[standardTitle].episodes.push(anime);
             }
-
-            const animeList = document.getElementById('anime-grouped-list');
-            animeList.innerHTML = "";
-            
+            const animeList = document.getElementById('anime-grouped-list'); animeList.innerHTML = "";
             if (Object.keys(grouped).length > 0) {
                 for (let title in grouped) {
-                    let group = grouped[title];
-                    let safeGroupStr = encodeURIComponent(JSON.stringify(group));
-                    animeList.innerHTML += `
-                        <div class="bg-zinc-900 rounded-xl overflow-hidden relative border border-zinc-800 flex flex-col justify-between" onclick="openAnimeDetails('${safeGroupStr}')">
-                            <div class="h-40 bg-zinc-800 bg-cover bg-center" style="background-image: url('${group.cover}')"></div>
-                            <div class="absolute top-2 right-2 bg-red-600 text-[10px] px-2 py-0.5 rounded-md font-black shadow-md">${group.episodes.length} qism</div>
-                            <div class="p-3"><h3 class="font-bold text-sm truncate">${group.displayTitle}</h3></div>
-                        </div>
-                    `;
+                    let group = grouped[title]; let safeGroupStr = encodeURIComponent(JSON.stringify(group));
+                    animeList.innerHTML += `<div class="bg-zinc-900 rounded-xl overflow-hidden relative border border-zinc-800 flex flex-col justify-between" onclick="openAnimeDetails('${safeGroupStr}')">
+                        <div class="h-40 bg-zinc-800 bg-cover bg-center" style="background-image: url('${group.cover}')"></div>
+                        <div class="absolute top-2 right-2 bg-red-600 text-[10px] px-2 py-0.5 rounded-md font-black shadow-md">${group.episodes.length} qism</div>
+                        <div class="p-3"><h3 class="font-bold text-sm truncate">${group.displayTitle}</h3></div></div>`;
                 }
-            } else {
-                animeList.innerHTML = `<div class="col-span-2 text-center text-zinc-500 py-10">Baza bo'sh!</div>`;
-            }
+            } else animeList.innerHTML = `<div class="col-span-2 text-center text-zinc-500 py-10">Baza bo'sh!</div>`;
         }
-
         function loadCatalog() {
-            // Avval telefon keshidan darhol o'qib ko'rsatamiz! (0.1 sekundda)
-            if(!lastCatalogStr) {
-                let cached = localStorage.getItem('nexa_catalog_cache');
-                if(cached) {
-                    lastCatalogStr = cached;
-                    renderCatalogUI(JSON.parse(cached));
-                }
-            }
-            // Orqa fonda internetdan yangisini tekshiramiz
             fetch(URL_ANIMES).then(res => res.text()).then(text => {
                 if(text === "null") text = "{}";
-                if(text !== lastCatalogStr) { // Agar yangilik bo'lsagina ekranni yangilaydi!
-                    lastCatalogStr = text;
-                    localStorage.setItem('nexa_catalog_cache', text);
-                    renderCatalogUI(JSON.parse(text));
-                }
-            }).catch(e => console.error("Katalog xatosi:", e));
+                if(text !== lastCatalogStr) { lastCatalogStr = text; renderCatalogUI(JSON.parse(text)); }
+            });
         }
-
-        // Qolgan funksiyalar (openAnimeDetails, submitNewAnime) o'zgarmadi...
         function openAnimeDetails(groupDataEncoded) {
             const group = JSON.parse(decodeURIComponent(groupDataEncoded));
             document.getElementById('details-title').innerText = group.displayTitle;
             document.getElementById('details-cover').style.backgroundImage = `url('${group.cover}')`;
-            let epsHtml = "";
-            let isAdmin = (currentUser.id == ADMIN_ID || localStorage.getItem('admin_override') === 'true');
-            group.episodes.sort((a,b) => (a.episode||"").localeCompare(b.episode||""));
-
+            let epsHtml = ""; group.episodes.sort((a,b) => (a.episode||"").localeCompare(b.episode||""));
             group.episodes.forEach(ep => {
                 let safeTitle = ep.title.replace(/'/g, "\\'");
-                epsHtml += `
-                    <div class="bg-zinc-900 p-3 rounded-xl border border-zinc-800 flex justify-between items-center">
-                        <div class="flex flex-col flex-1" onclick="playVideoInApp('${safeTitle}', '${ep.episode}', '${ep.link}')">
-                            <span class="text-white font-bold text-sm">${ep.episode || "Qism yo'q"}</span>
-                            <span class="text-zinc-500 text-[10px]">${ep.season || "1-Mavsum"} | ${ep.genre || "Janrsiz"}</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="playVideoInApp('${safeTitle}', '${ep.episode}', '${ep.link}')" class="bg-red-600/20 text-red-500 w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white"><i class="fas fa-play text-xs"></i></button>
-                            ${isAdmin ? `<button onclick="deleteAnimeEpisode('${ep.firebaseKey}')" class="bg-zinc-800 text-red-400 w-8 h-8 rounded-full flex items-center justify-center border border-red-900/50 hover:bg-red-600 hover:text-white"><i class="fas fa-trash text-xs"></i></button>` : ''}
-                        </div>
-                    </div>`;
+                epsHtml += `<div class="bg-zinc-900 p-3 rounded-xl border border-zinc-800 flex justify-between items-center">
+                    <div class="flex flex-col flex-1" onclick="playVideoInApp('${safeTitle}', '${ep.episode}', '${ep.link}')">
+                        <span class="text-white font-bold text-sm">${ep.episode || "Qism yo'q"}</span><span class="text-zinc-500 text-[10px]">${ep.season || "1-Mavsum"} | ${ep.genre || "-"}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="playVideoInApp('${safeTitle}', '${ep.episode}', '${ep.link}')" class="bg-red-600/20 text-red-500 w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white"><i class="fas fa-play text-xs"></i></button>
+                        ${hasPrivileges ? `<button onclick="deleteAnimeEpisode('${ep.firebaseKey}')" class="bg-zinc-800 text-red-400 w-8 h-8 rounded-full flex items-center justify-center border border-red-900/50 hover:bg-red-600 hover:text-white"><i class="fas fa-trash text-xs"></i></button>` : ''}
+                    </div></div>`;
             });
             document.getElementById('details-episodes-list').innerHTML = epsHtml;
-            document.getElementById('anime-details-overlay').classList.remove('hidden');
-            document.getElementById('anime-details-overlay').classList.add('flex');
+            document.getElementById('anime-details-overlay').classList.remove('hidden'); document.getElementById('anime-details-overlay').classList.add('flex');
         }
-
         function closeAnimeDetails() { document.getElementById('anime-details-overlay').classList.add('hidden'); document.getElementById('anime-details-overlay').classList.remove('flex'); }
-
         function deleteAnimeEpisode(firebaseKey) {
-            tg.showConfirm("Bu qismni bazadan butunlay o'chirasizmi?", function(isOk) {
-                if(isOk) {
-                    fetch(`${DB_BASE}/anime_data/${firebaseKey}.json`, { method: 'DELETE' }).then(res => {
-                        if(res.ok) { tg.showAlert("O'chirildi!"); closeAnimeDetails(); loadCatalog(); }
-                    });
-                }
+            tg.showConfirm("Bu qism o'chirilsinmi?", function(isOk) {
+                if(isOk) { fetch(`${DB_BASE}/anime_data/${firebaseKey}.json`, { method: 'DELETE' }).then(() => { closeAnimeDetails(); lastCatalogStr=""; loadCatalog(); }); }
             });
         }
 
-        function submitNewAnime() {
-            const title = document.getElementById('add-title').value.trim();
-            if (!title) { tg.showAlert("Nomi kerak!"); return; }
-            fetch(URL_ANIMES, {
-                method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    title: title, season: document.getElementById('add-season').value.trim(),
-                    episode: document.getElementById('add-episode').value.trim(), genre: document.getElementById('add-genre').value,
-                    link: document.getElementById('add-link').value.trim(), cover: document.getElementById('add-cover').value.trim()
-                })
-            }).then(res => {
-                if(res.ok) {
-                    tg.showAlert("Yangi qism qo'shildi!");
-                    document.getElementById('add-title').value = ""; document.getElementById('add-episode').value = ""; document.getElementById('add-link').value = "";
-                    lastCatalogStr = ""; // Keshni tozalab majburan yangilatamiz
-                    loadCatalog(); switchTab('home');
-                }
-            });
+        // ================== CHAT VA INBOX TIZIMI ==================
+        function toggleChatType(type) {
+            if(type === 'global') {
+                document.getElementById('chat-view-global').classList.remove('hidden'); document.getElementById('chat-view-global').classList.add('flex');
+                document.getElementById('chat-view-inbox').classList.add('hidden'); document.getElementById('chat-view-inbox').classList.remove('flex');
+                document.getElementById('btn-chat-global').classList.replace('text-zinc-400', 'bg-red-600'); document.getElementById('btn-chat-global').classList.add('shadow-lg');
+                document.getElementById('btn-chat-inbox').classList.replace('bg-red-600', 'text-zinc-400'); document.getElementById('btn-chat-inbox').classList.remove('shadow-lg');
+            } else {
+                document.getElementById('chat-view-inbox').classList.remove('hidden'); document.getElementById('chat-view-inbox').classList.add('flex');
+                document.getElementById('chat-view-global').classList.add('hidden'); document.getElementById('chat-view-global').classList.remove('flex');
+                document.getElementById('btn-chat-inbox').classList.replace('text-zinc-400', 'bg-red-600'); document.getElementById('btn-chat-inbox').classList.add('shadow-lg');
+                document.getElementById('btn-chat-global').classList.replace('bg-red-600', 'text-zinc-400'); document.getElementById('btn-chat-global').classList.remove('shadow-lg');
+                fetchInboxChats();
+            }
         }
 
-        // ==========================================
-        // 2. CHAT TIZIMI (Kesh xotira va sakramaslik)
-        // ==========================================
-        let lastGlobalChatStr = "";
-        let globalMsgCount = 0;
-
+        let lastGlobalChatStr = ""; let globalMsgCount = 0;
         function renderGlobalChatUI(data) {
             if(!data) return;
-            const box = document.getElementById('global-chat-messages');
-            let html = "";
+            const box = document.getElementById('global-chat-messages'); let html = "";
             let msgs = Object.values(data).sort((a,b) => a.time - b.time);
-            
             msgs.forEach(m => {
                 let isMe = m.senderId == currentUser.id;
-                let isAdminBadge = m.senderId == ADMIN_ID ? `<i class="fas fa-crown text-yellow-500 ml-1"></i>` : "";
-                
-                let d = new Date(m.time);
-                let t = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
-
-                if (isMe) {
-                    html += `<div class="bg-red-900/40 border border-red-500/30 p-2 rounded-lg rounded-tr-none self-end max-w-[85%]"><div class="flex justify-between items-end gap-2 mb-1"><span class="text-[10px] text-zinc-400">${t}</span><span class="text-xs text-red-300 font-bold">Siz ${isAdminBadge}</span></div><p class="text-sm text-white">${m.text}</p></div>`;
-                } else {
-                    html += `<div class="bg-zinc-800 p-2 rounded-lg rounded-tl-none self-start max-w-[85%]"><div class="flex justify-between items-end gap-2 mb-1"><span onclick="openPrivateChat('${m.senderId}', '${m.senderName}')" class="text-xs text-zinc-400 font-bold cursor-pointer hover:text-red-400 underline decoration-dashed decoration-zinc-500 underline-offset-2">${m.senderName} ${isAdminBadge}</span><span class="text-[10px] text-zinc-500">${t}</span></div><p class="text-sm text-white">${m.text}</p></div>`;
-                }
+                let isAdminBadge = (m.senderId == MAIN_ADMIN_ID) ? `<i class="fas fa-crown text-yellow-500 ml-1 text-[10px]"></i>` : "";
+                let d = new Date(m.time); let t = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
+                if (isMe) html += `<div class="bg-red-900/40 border border-red-500/30 p-2 rounded-lg rounded-tr-none self-end max-w-[85%]"><div class="flex justify-between items-end gap-2 mb-1"><span class="text-[10px] text-zinc-400">${t}</span><span class="text-xs text-red-300 font-bold">Siz ${isAdminBadge}</span></div><p class="text-sm text-white">${m.text}</p></div>`;
+                else html += `<div class="bg-zinc-800 p-2 rounded-lg rounded-tl-none self-start max-w-[85%]"><div class="flex justify-between items-end gap-2 mb-1"><span onclick="openPrivateChat('${m.senderId}', '${m.senderName}')" class="text-xs text-zinc-400 font-bold cursor-pointer hover:text-red-400 underline decoration-dashed decoration-zinc-500 underline-offset-2">${m.senderName} ${isAdminBadge}</span><span class="text-[10px] text-zinc-500">${t}</span></div><p class="text-sm text-white">${m.text}</p></div>`;
             });
-            
             box.innerHTML = html || "<div class='text-center text-zinc-500 text-sm mt-10'>Hali xabarlar yo'q.</div>";
-            
-            // Faqat yangi xabar qo'shilsagina pastga tushadi (ekran sakramaydi!)
-            if(msgs.length > globalMsgCount) {
-                box.scrollTop = box.scrollHeight;
-                globalMsgCount = msgs.length;
-            }
+            if(msgs.length > globalMsgCount) { box.scrollTop = box.scrollHeight; globalMsgCount = msgs.length; }
         }
-
         function fetchGlobalChat() {
-            if(!lastGlobalChatStr) {
-                let cached = localStorage.getItem('nexa_chat_cache');
-                if(cached) {
-                    lastGlobalChatStr = cached;
-                    renderGlobalChatUI(JSON.parse(cached));
-                }
-            }
             fetch(URL_GLOBAL_CHAT).then(res => res.text()).then(text => {
                 if(text === "null") text = "{}";
-                if(text !== lastGlobalChatStr) { // Faqat o'zgarganda ekranni yangilaymiz!
-                    lastGlobalChatStr = text;
-                    localStorage.setItem('nexa_chat_cache', text);
-                    renderGlobalChatUI(JSON.parse(text));
-                }
+                if(text !== lastGlobalChatStr) { lastGlobalChatStr = text; renderGlobalChatUI(JSON.parse(text)); }
             });
         }
-
         function sendGlobalMessage() {
-            const input = document.getElementById('global-chat-input');
-            const text = input.value.trim();
+            const input = document.getElementById('global-chat-input'); const text = input.value.trim();
             if(!text) return;
-            fetch(URL_GLOBAL_CHAT, {
-                method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ senderId: currentUser.id, senderName: currentUser.first_name, text: text, time: Date.now() })
-            }).then(() => { input.value = ""; fetchGlobalChat(); tg.HapticFeedback.impactOccurred('light'); });
+            fetch(URL_GLOBAL_CHAT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ senderId: currentUser.id, senderName: currentUser.first_name, text: text, time: Date.now() }) })
+            .then(() => { input.value = ""; fetchGlobalChat(); tg.HapticFeedback.impactOccurred('light'); });
         }
 
-        // Shaxsiy Chat mantiqi 
-        let currentPrivateTargetId = null;
-        let currentPrivateTargetName = null;
-        let lastPrivateChatStr = "";
-        let privateMsgCount = 0;
-
+        // SHAXSIY CHAT INBOX VA XABARLASHISH
+        let currentPrivateTargetId = null; let currentPrivateTargetName = null; let lastPrivateChatStr = ""; let privateMsgCount = 0;
         function getPrivateChatUrl(tId) { let ids = [currentUser.id, tId].sort(); return `${DB_BASE}/chats/private_${ids[0]}_${ids[1]}.json`; }
+        const URL_USER_INBOX = `${DB_BASE}/user_inbox.json`;
+
+        function fetchInboxChats() {
+            fetch(`${DB_BASE}/user_inbox/${currentUser.id}.json`).then(res => res.json()).then(data => {
+                const list = document.getElementById('inbox-list'); list.innerHTML = "";
+                if(!data) { list.innerHTML = `<div class="text-center text-zinc-500 text-sm mt-10">Shaxsiy suhbatlar yo'q. Umumiy chatdan biror kishini ustiga bosing.</div>`; return; }
+                
+                let users = Object.keys(data).map(id => ({ id: id, name: data[id].name, time: data[id].time })).sort((a,b) => b.time - a.time);
+                users.forEach(u => {
+                    let d = new Date(u.time); let t = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
+                    list.innerHTML += `<div onclick="openPrivateChat('${u.id}', '${u.name}')" class="flex items-center gap-3 p-3 bg-zinc-800/50 hover:bg-zinc-800 rounded-xl cursor-pointer transition border border-zinc-700/50">
+                        <div class="w-10 h-10 rounded-full bg-red-900 text-red-300 flex items-center justify-center font-bold font-sm">${u.name.charAt(0).toUpperCase()}</div>
+                        <div class="flex-1 overflow-hidden">
+                            <h4 class="font-bold text-sm text-zinc-200 truncate">${u.name}</h4>
+                            <p class="text-[10px] text-zinc-500">Shaxsiy suhbat ochish...</p>
+                        </div>
+                        <span class="text-[10px] text-zinc-500">${t}</span>
+                    </div>`;
+                });
+            });
+        }
 
         function openPrivateChat(targetId, targetName) {
             if(targetId == currentUser.id) return;
             currentPrivateTargetId = targetId; currentPrivateTargetName = targetName;
-            lastPrivateChatStr = ""; privateMsgCount = 0; // Reset for new chat
-            document.getElementById('private-chat-name').innerText = targetName;
-            document.getElementById('private-chat-avatar').innerText = targetName.charAt(0).toUpperCase();
+            lastPrivateChatStr = ""; privateMsgCount = 0;
+            document.getElementById('private-chat-name').innerText = targetName; document.getElementById('private-chat-avatar').innerText = targetName.charAt(0).toUpperCase();
             document.getElementById('private-chat-overlay').classList.remove('hidden'); document.getElementById('private-chat-overlay').classList.add('flex');
             fetchPrivateChat();
         }
-
-        function closePrivateChat() { currentPrivateTargetId = null; document.getElementById('private-chat-overlay').classList.add('hidden'); document.getElementById('private-chat-overlay').classList.remove('flex'); }
+        function closePrivateChat() { currentPrivateTargetId = null; document.getElementById('private-chat-overlay').classList.add('hidden'); document.getElementById('private-chat-overlay').classList.remove('flex'); fetchInboxChats(); }
 
         function fetchPrivateChat() {
             if(!currentPrivateTargetId) return;
             fetch(getPrivateChatUrl(currentPrivateTargetId)).then(res => res.text()).then(text => {
                 if(text === "null") text = "{}";
                 if(text !== lastPrivateChatStr) {
-                    lastPrivateChatStr = text;
-                    let data = JSON.parse(text);
-                    const box = document.getElementById('private-chat-messages');
-                    let html = "";
-                    let msgs = Object.values(data).sort((a,b) => a.time - b.time);
-
+                    lastPrivateChatStr = text; let data = JSON.parse(text); const box = document.getElementById('private-chat-messages');
+                    let html = ""; let msgs = Object.values(data).sort((a,b) => a.time - b.time);
                     msgs.forEach(m => {
-                        let isMe = m.senderId == currentUser.id;
-                        let d = new Date(m.time); let t = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
+                        let isMe = m.senderId == currentUser.id; let d = new Date(m.time); let t = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
                         if (isMe) html += `<div class="bg-red-600 text-white p-2.5 rounded-2xl rounded-tr-sm self-end max-w-[80%] shadow-lg"><p class="text-sm">${m.text}</p><p class="text-[9px] text-red-200 text-right mt-1">${t}</p></div>`;
                         else html += `<div class="bg-zinc-800 text-white p-2.5 rounded-2xl rounded-tl-sm self-start max-w-[80%] border border-zinc-700 shadow-lg"><p class="text-sm">${m.text}</p><p class="text-[9px] text-zinc-500 mt-1">${t}</p></div>`;
                     });
-                    
                     box.innerHTML = html || `<div class="text-center text-zinc-500 text-sm mt-10">Shaxsiy suhbat shifrlangan.</div>`;
                     if(msgs.length > privateMsgCount) { box.scrollTop = box.scrollHeight; privateMsgCount = msgs.length; }
                 }
             });
         }
-
         function sendPrivateMessage() {
             const input = document.getElementById('private-chat-input'); const text = input.value.trim();
             if(!text || !currentPrivateTargetId) return;
-            fetch(getPrivateChatUrl(currentPrivateTargetId), {
-                method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ senderId: currentUser.id, text: text, time: Date.now() })
-            }).then(() => { input.value = ""; fetchPrivateChat(); tg.HapticFeedback.impactOccurred('medium'); });
+            let now = Date.now();
+            fetch(getPrivateChatUrl(currentPrivateTargetId), { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ senderId: currentUser.id, text: text, time: now }) })
+            .then(() => { 
+                input.value = ""; fetchPrivateChat(); tg.HapticFeedback.impactOccurred('medium'); 
+                // Inbox ro'yxatini ikki tomonlama yangilash
+                fetch(`${DB_BASE}/user_inbox/${currentUser.id}.json`, { method: 'PATCH', body: JSON.stringify({ [currentPrivateTargetId]: { name: currentPrivateTargetName, time: now } }) });
+                fetch(`${DB_BASE}/user_inbox/${currentPrivateTargetId}.json`, { method: 'PATCH', body: JSON.stringify({ [currentUser.id]: { name: currentUser.first_name, time: now } }) });
+            });
         }
 
-        // ==========================================
-        // 3. AQLLI PLEYER VA QOLGAN ISHLAR
-        // ==========================================
+        // ================== QUIZ (VIKTORINA) YUKLASH ==================
+        let allQuizzes = [];
+        function loadNextQuiz() {
+            if(allQuizzes.length === 0) {
+                fetch(URL_QUIZ).then(res => res.json()).then(data => {
+                    if(!data) { document.getElementById('quiz-container').innerHTML = "<p class='text-zinc-400 text-center'>Hozircha savollar yo'q</p>"; return; }
+                    allQuizzes = Object.values(data); showRandomQuiz();
+                });
+            } else { showRandomQuiz(); }
+        }
+        function showRandomQuiz() {
+            let qData = allQuizzes[Math.floor(Math.random() * allQuizzes.length)];
+            let options = [qData.correct, qData.wrong1, qData.wrong2].filter(Boolean);
+            options.sort(() => Math.random() - 0.5); // Javoblarni tasodifiy almashtirish
+            
+            let html = `<p class="text-lg font-medium mb-4">${qData.question}</p><div class="flex flex-col gap-3">`;
+            options.forEach(opt => {
+                let isCorrect = (opt === qData.correct);
+                html += `<button onclick="checkQuizAnswer(this, ${isCorrect})" class="bg-zinc-800 p-3 rounded-xl border border-zinc-700 w-full text-left transition hover:bg-zinc-700">${opt}</button>`;
+            });
+            html += `</div>`;
+            document.getElementById('quiz-container').innerHTML = html;
+        }
+        function checkQuizAnswer(btn, isCorrect) {
+            if(isCorrect) {
+                btn.classList.replace('bg-zinc-800', 'bg-green-600'); btn.classList.replace('border-zinc-700', 'border-green-500'); btn.classList.add('text-white'); tg.HapticFeedback.notificationOccurred('success');
+                setTimeout(loadNextQuiz, 1000);
+            } else {
+                btn.classList.replace('bg-zinc-800', 'bg-red-600'); btn.classList.replace('border-zinc-700', 'border-red-500'); btn.classList.add('text-white'); tg.HapticFeedback.notificationOccurred('error');
+            }
+        }
+
+        // PLEYER
         function playVideoInApp(title, epInfo, link) {
             if (!link || link === "#") { tg.showAlert("Havola yo'q!"); return; }
             document.getElementById('player-title').innerText = title; document.getElementById('player-episode-info').innerText = epInfo;
             const container = document.getElementById('player-container');
-            
-            if (link.includes('t.me/')) {
-                container.innerHTML = `<div class="flex flex-col items-center justify-center text-center p-6 w-full"><div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-4"><i class="fab fa-telegram-plane text-white text-3xl"></i></div><h3 class="text-white font-bold mb-2">Telegram Video</h3><p class="text-zinc-400 text-xs mb-6">Telegram qoidalari tufayli bu yerdan tashqarida ko'riladi.</p><button onclick="tg.openLink('${link}')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg">Videoni Ochish</button></div>`;
-            } else if (link.match(/\.(mp4|webm)$/i)) {
-                container.innerHTML = `<video class="w-full max-h-full" controls autoplay playsinline><source src="${link}" type="video/mp4"></video>`;
-            } else if (link.includes('youtube.com') || link.includes('youtu.be')) {
-                let vId = link.includes('v=') ? link.split('v=')[1].split('&')[0] : link.split('youtu.be/')[1].split('?')[0];
-                container.innerHTML = `<iframe class="w-full aspect-video" src="https://www.youtube.com/embed/${vId}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
-            } else {
-                container.innerHTML = `<iframe class="w-full h-full border-0" src="${link}" allowfullscreen></iframe>`;
-            }
+            if (link.includes('t.me/')) container.innerHTML = `<div class="flex flex-col items-center justify-center text-center p-6 w-full"><button onclick="tg.openLink('${link}')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg">Telegramda Ochish</button></div>`;
+            else if (link.match(/\.(mp4|webm)$/i)) container.innerHTML = `<video class="w-full max-h-full" controls autoplay playsinline><source src="${link}" type="video/mp4"></video>`;
+            else container.innerHTML = `<iframe class="w-full h-full border-0" src="${link}" allowfullscreen></iframe>`;
             document.getElementById('video-player-overlay').classList.remove('hidden'); document.getElementById('video-player-overlay').classList.add('flex');
         }
-
         function closePlayer() { document.getElementById('video-player-overlay').classList.add('hidden'); document.getElementById('video-player-overlay').classList.remove('flex'); document.getElementById('player-container').innerHTML = ''; }
 
-        // Boshlang'ich funksiyalar va Interval
-        loadCatalog();
-        fetchGlobalChat();
-        
-        // Chatlarni har 3 soniyada tekshiradi (faqat o'zgarsa ekran yangilanadi)
+        // Start
+        loadCatalog(); fetchGlobalChat();
         setInterval(() => {
             if(document.getElementById('tab-home').classList.contains('active')) loadCatalog();
-            if(document.getElementById('tab-chat').classList.contains('active')) fetchGlobalChat();
+            if(document.getElementById('tab-chat').classList.contains('active') && !document.getElementById('chat-view-global').classList.contains('hidden')) fetchGlobalChat();
             if(!document.getElementById('private-chat-overlay').classList.contains('hidden')) fetchPrivateChat();
         }, 3000);
 
         document.getElementById('global-chat-input').addEventListener('keypress', function (e) { if (e.key === 'Enter') sendGlobalMessage(); });
         document.getElementById('private-chat-input').addEventListener('keypress', function (e) { if (e.key === 'Enter') sendPrivateMessage(); });
-        function startQuiz() { document.getElementById('quiz-question').innerText = "Eng kuchli anime qahramoni?"; document.getElementById('quiz-options').innerHTML = '<button onclick="tg.showAlert(\'Togri!\')" class="bg-zinc-800 p-3 rounded-xl border border-zinc-700 w-full text-left">Naruto</button>'; }
     </script>
 </body>
 </html>
