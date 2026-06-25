@@ -293,4 +293,201 @@
                             <span class="text-zinc-500 text-[10px]">${ep.season || "1-Mavsum"} | ${ep.genre || "Janrsiz"}</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="playVideoInApp('${safeTitle}', '${ep.epis
+                            <button onclick="playVideoInApp('${safeTitle}', '${ep.episode}', '${ep.link}')" class="bg-red-600/20 text-red-500 w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white"><i class="fas fa-play text-xs"></i></button>
+                            ${isAdmin ? `<button onclick="deleteAnimeEpisode('${ep.firebaseKey}')" class="bg-zinc-800 text-red-400 w-8 h-8 rounded-full flex items-center justify-center border border-red-900/50 hover:bg-red-600 hover:text-white"><i class="fas fa-trash text-xs"></i></button>` : ''}
+                        </div>
+                    </div>`;
+            });
+            document.getElementById('details-episodes-list').innerHTML = epsHtml;
+            document.getElementById('anime-details-overlay').classList.remove('hidden');
+            document.getElementById('anime-details-overlay').classList.add('flex');
+        }
+
+        function closeAnimeDetails() { document.getElementById('anime-details-overlay').classList.add('hidden'); document.getElementById('anime-details-overlay').classList.remove('flex'); }
+
+        function deleteAnimeEpisode(firebaseKey) {
+            tg.showConfirm("Bu qismni bazadan butunlay o'chirasizmi?", function(isOk) {
+                if(isOk) {
+                    fetch(`${DB_BASE}/anime_data/${firebaseKey}.json`, { method: 'DELETE' }).then(res => {
+                        if(res.ok) { tg.showAlert("O'chirildi!"); closeAnimeDetails(); loadCatalog(); }
+                    });
+                }
+            });
+        }
+
+        function submitNewAnime() {
+            const title = document.getElementById('add-title').value.trim();
+            if (!title) { tg.showAlert("Nomi kerak!"); return; }
+            fetch(URL_ANIMES, {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    title: title, season: document.getElementById('add-season').value.trim(),
+                    episode: document.getElementById('add-episode').value.trim(), genre: document.getElementById('add-genre').value,
+                    link: document.getElementById('add-link').value.trim(), cover: document.getElementById('add-cover').value.trim()
+                })
+            }).then(res => {
+                if(res.ok) {
+                    tg.showAlert("Yangi qism qo'shildi!");
+                    document.getElementById('add-title').value = ""; document.getElementById('add-episode').value = ""; document.getElementById('add-link').value = "";
+                    lastCatalogStr = ""; // Keshni tozalab majburan yangilatamiz
+                    loadCatalog(); switchTab('home');
+                }
+            });
+        }
+
+        // ==========================================
+        // 2. CHAT TIZIMI (Kesh xotira va sakramaslik)
+        // ==========================================
+        let lastGlobalChatStr = "";
+        let globalMsgCount = 0;
+
+        function renderGlobalChatUI(data) {
+            if(!data) return;
+            const box = document.getElementById('global-chat-messages');
+            let html = "";
+            let msgs = Object.values(data).sort((a,b) => a.time - b.time);
+            
+            msgs.forEach(m => {
+                let isMe = m.senderId == currentUser.id;
+                let isAdminBadge = m.senderId == ADMIN_ID ? `<i class="fas fa-crown text-yellow-500 ml-1"></i>` : "";
+                
+                let d = new Date(m.time);
+                let t = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
+
+                if (isMe) {
+                    html += `<div class="bg-red-900/40 border border-red-500/30 p-2 rounded-lg rounded-tr-none self-end max-w-[85%]"><div class="flex justify-between items-end gap-2 mb-1"><span class="text-[10px] text-zinc-400">${t}</span><span class="text-xs text-red-300 font-bold">Siz ${isAdminBadge}</span></div><p class="text-sm text-white">${m.text}</p></div>`;
+                } else {
+                    html += `<div class="bg-zinc-800 p-2 rounded-lg rounded-tl-none self-start max-w-[85%]"><div class="flex justify-between items-end gap-2 mb-1"><span onclick="openPrivateChat('${m.senderId}', '${m.senderName}')" class="text-xs text-zinc-400 font-bold cursor-pointer hover:text-red-400 underline decoration-dashed decoration-zinc-500 underline-offset-2">${m.senderName} ${isAdminBadge}</span><span class="text-[10px] text-zinc-500">${t}</span></div><p class="text-sm text-white">${m.text}</p></div>`;
+                }
+            });
+            
+            box.innerHTML = html || "<div class='text-center text-zinc-500 text-sm mt-10'>Hali xabarlar yo'q.</div>";
+            
+            // Faqat yangi xabar qo'shilsagina pastga tushadi (ekran sakramaydi!)
+            if(msgs.length > globalMsgCount) {
+                box.scrollTop = box.scrollHeight;
+                globalMsgCount = msgs.length;
+            }
+        }
+
+        function fetchGlobalChat() {
+            if(!lastGlobalChatStr) {
+                let cached = localStorage.getItem('nexa_chat_cache');
+                if(cached) {
+                    lastGlobalChatStr = cached;
+                    renderGlobalChatUI(JSON.parse(cached));
+                }
+            }
+            fetch(URL_GLOBAL_CHAT).then(res => res.text()).then(text => {
+                if(text === "null") text = "{}";
+                if(text !== lastGlobalChatStr) { // Faqat o'zgarganda ekranni yangilaymiz!
+                    lastGlobalChatStr = text;
+                    localStorage.setItem('nexa_chat_cache', text);
+                    renderGlobalChatUI(JSON.parse(text));
+                }
+            });
+        }
+
+        function sendGlobalMessage() {
+            const input = document.getElementById('global-chat-input');
+            const text = input.value.trim();
+            if(!text) return;
+            fetch(URL_GLOBAL_CHAT, {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ senderId: currentUser.id, senderName: currentUser.first_name, text: text, time: Date.now() })
+            }).then(() => { input.value = ""; fetchGlobalChat(); tg.HapticFeedback.impactOccurred('light'); });
+        }
+
+        // Shaxsiy Chat mantiqi 
+        let currentPrivateTargetId = null;
+        let currentPrivateTargetName = null;
+        let lastPrivateChatStr = "";
+        let privateMsgCount = 0;
+
+        function getPrivateChatUrl(tId) { let ids = [currentUser.id, tId].sort(); return `${DB_BASE}/chats/private_${ids[0]}_${ids[1]}.json`; }
+
+        function openPrivateChat(targetId, targetName) {
+            if(targetId == currentUser.id) return;
+            currentPrivateTargetId = targetId; currentPrivateTargetName = targetName;
+            lastPrivateChatStr = ""; privateMsgCount = 0; // Reset for new chat
+            document.getElementById('private-chat-name').innerText = targetName;
+            document.getElementById('private-chat-avatar').innerText = targetName.charAt(0).toUpperCase();
+            document.getElementById('private-chat-overlay').classList.remove('hidden'); document.getElementById('private-chat-overlay').classList.add('flex');
+            fetchPrivateChat();
+        }
+
+        function closePrivateChat() { currentPrivateTargetId = null; document.getElementById('private-chat-overlay').classList.add('hidden'); document.getElementById('private-chat-overlay').classList.remove('flex'); }
+
+        function fetchPrivateChat() {
+            if(!currentPrivateTargetId) return;
+            fetch(getPrivateChatUrl(currentPrivateTargetId)).then(res => res.text()).then(text => {
+                if(text === "null") text = "{}";
+                if(text !== lastPrivateChatStr) {
+                    lastPrivateChatStr = text;
+                    let data = JSON.parse(text);
+                    const box = document.getElementById('private-chat-messages');
+                    let html = "";
+                    let msgs = Object.values(data).sort((a,b) => a.time - b.time);
+
+                    msgs.forEach(m => {
+                        let isMe = m.senderId == currentUser.id;
+                        let d = new Date(m.time); let t = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
+                        if (isMe) html += `<div class="bg-red-600 text-white p-2.5 rounded-2xl rounded-tr-sm self-end max-w-[80%] shadow-lg"><p class="text-sm">${m.text}</p><p class="text-[9px] text-red-200 text-right mt-1">${t}</p></div>`;
+                        else html += `<div class="bg-zinc-800 text-white p-2.5 rounded-2xl rounded-tl-sm self-start max-w-[80%] border border-zinc-700 shadow-lg"><p class="text-sm">${m.text}</p><p class="text-[9px] text-zinc-500 mt-1">${t}</p></div>`;
+                    });
+                    
+                    box.innerHTML = html || `<div class="text-center text-zinc-500 text-sm mt-10">Shaxsiy suhbat shifrlangan.</div>`;
+                    if(msgs.length > privateMsgCount) { box.scrollTop = box.scrollHeight; privateMsgCount = msgs.length; }
+                }
+            });
+        }
+
+        function sendPrivateMessage() {
+            const input = document.getElementById('private-chat-input'); const text = input.value.trim();
+            if(!text || !currentPrivateTargetId) return;
+            fetch(getPrivateChatUrl(currentPrivateTargetId), {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ senderId: currentUser.id, text: text, time: Date.now() })
+            }).then(() => { input.value = ""; fetchPrivateChat(); tg.HapticFeedback.impactOccurred('medium'); });
+        }
+
+        // ==========================================
+        // 3. AQLLI PLEYER VA QOLGAN ISHLAR
+        // ==========================================
+        function playVideoInApp(title, epInfo, link) {
+            if (!link || link === "#") { tg.showAlert("Havola yo'q!"); return; }
+            document.getElementById('player-title').innerText = title; document.getElementById('player-episode-info').innerText = epInfo;
+            const container = document.getElementById('player-container');
+            
+            if (link.includes('t.me/')) {
+                container.innerHTML = `<div class="flex flex-col items-center justify-center text-center p-6 w-full"><div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-4"><i class="fab fa-telegram-plane text-white text-3xl"></i></div><h3 class="text-white font-bold mb-2">Telegram Video</h3><p class="text-zinc-400 text-xs mb-6">Telegram qoidalari tufayli bu yerdan tashqarida ko'riladi.</p><button onclick="tg.openLink('${link}')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg">Videoni Ochish</button></div>`;
+            } else if (link.match(/\.(mp4|webm)$/i)) {
+                container.innerHTML = `<video class="w-full max-h-full" controls autoplay playsinline><source src="${link}" type="video/mp4"></video>`;
+            } else if (link.includes('youtube.com') || link.includes('youtu.be')) {
+                let vId = link.includes('v=') ? link.split('v=')[1].split('&')[0] : link.split('youtu.be/')[1].split('?')[0];
+                container.innerHTML = `<iframe class="w-full aspect-video" src="https://www.youtube.com/embed/${vId}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
+            } else {
+                container.innerHTML = `<iframe class="w-full h-full border-0" src="${link}" allowfullscreen></iframe>`;
+            }
+            document.getElementById('video-player-overlay').classList.remove('hidden'); document.getElementById('video-player-overlay').classList.add('flex');
+        }
+
+        function closePlayer() { document.getElementById('video-player-overlay').classList.add('hidden'); document.getElementById('video-player-overlay').classList.remove('flex'); document.getElementById('player-container').innerHTML = ''; }
+
+        // Boshlang'ich funksiyalar va Interval
+        loadCatalog();
+        fetchGlobalChat();
+        
+        // Chatlarni har 3 soniyada tekshiradi (faqat o'zgarsa ekran yangilanadi)
+        setInterval(() => {
+            if(document.getElementById('tab-home').classList.contains('active')) loadCatalog();
+            if(document.getElementById('tab-chat').classList.contains('active')) fetchGlobalChat();
+            if(!document.getElementById('private-chat-overlay').classList.contains('hidden')) fetchPrivateChat();
+        }, 3000);
+
+        document.getElementById('global-chat-input').addEventListener('keypress', function (e) { if (e.key === 'Enter') sendGlobalMessage(); });
+        document.getElementById('private-chat-input').addEventListener('keypress', function (e) { if (e.key === 'Enter') sendPrivateMessage(); });
+        function startQuiz() { document.getElementById('quiz-question').innerText = "Eng kuchli anime qahramoni?"; document.getElementById('quiz-options').innerHTML = '<button onclick="tg.showAlert(\'Togri!\')" class="bg-zinc-800 p-3 rounded-xl border border-zinc-700 w-full text-left">Naruto</button>'; }
+    </script>
+</body>
+</html>
