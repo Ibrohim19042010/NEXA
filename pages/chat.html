@@ -1,1 +1,36 @@
-html
+<div class="page-wrapper chat-page animate-fade-in">
+    <div class="chat-tabs-nav">
+        <button id="tab-global-chat" class="chat-tab-btn active" onclick="switchChatTab('global')">
+            <i class="fas fa-globe"></i> Global Chat
+        </button>
+        <button id="tab-private-chat" class="chat-tab-btn" onclick="switchChatTab('private')">
+            <i class="fas fa-envelope"></i> Private Chat
+        </button>
+    </div>
+
+    <div class="chat-messages-area" id="chat-messages-container">
+        <div class="chat-empty-state">
+            <p>Xabarlar yuklanmoqda...</p>
+        </div>
+    </div>
+
+    <div id="chat-reply-preview" class="reply-preview-box hidden">
+        <div class="reply-info">
+            <span class="reply-user" id="reply-target-user">@username</span>
+            <p class="reply-text" id="reply-target-text">Xabar matni...</p>
+        </div>
+        <button class="cancel-reply-btn" onclick="cancelChatReply()"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="chat-input-sticky-footer">
+        <button class="chat-emoji-trigger" onclick="toggleEmojiPicker()">
+            <i class="far fa-smile"></i>
+        </button>
+        <div class="chat-input-wrapper">
+            <input type="text" id="chat-message-input" placeholder="Xabaringizni yozing...">
+        </div>
+        <button class="chat-send-btn" onclick="sendChatMessage()">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
