@@ -1,1 +1,50 @@
-html
+<div class="page-wrapper shop-page animate-fade-in">
+    <div class="shop-header">
+        <h2>NEXA Premium Do'koni</h2>
+        <p>Telegram Stars orqali tangalar sotib oling va platforma imkoniyatlarini kengaytiring.</p>
+    </div>
+
+    <div class="shop-packages-grid">
+        <div class="shop-pack-card-glass">
+            <div class="pack-coin-icon"><i class="fas fa-coins"></i></div>
+            <div class="pack-amount">100 Coin</div>
+            <button class="btn-buy-stars" onclick="triggerStarsPayment(100)">
+                <i class="fas fa-star"></i> Buy with Stars
+            </button>
+        </div>
+
+        <div class="shop-pack-card-glass featured">
+            <span class="pop-tag">POPULAR</span>
+            <div class="pack-coin-icon"><i class="fas fa-coins text-warning"></i></div>
+            <div class="pack-amount">250 Coin</div>
+            <button class="btn-buy-stars" onclick="triggerStarsPayment(250)">
+                <i class="fas fa-star"></i> Buy with Stars
+            </button>
+        </div>
+
+        <div class="shop-pack-card-glass">
+            <div class="pack-coin-icon"><i class="fas fa-box-open"></i></div>
+            <div class="pack-amount">500 Coin</div>
+            <button class="btn-buy-stars" onclick="triggerStarsPayment(500)">
+                <i class="fas fa-star"></i> Buy with Stars
+            </button>
+        </div>
+
+        <div class="shop-pack-card-glass premium-pack">
+            <div class="pack-coin-icon"><i class="fas fa-treasure-chest"></i></div>
+            <div class="pack-amount">1000 Coin</div>
+            <button class="btn-buy-stars" onclick="triggerStarsPayment(1000)">
+                <i class="fas fa-star"></i> Buy with Stars
+            </button>
+        </div>
+    </div>
+
+    <div class="promo-code-section-glass">
+        <h3><i class="fas fa-ticket-alt"></i> Promo Kod Aktivlashtirish</h3>
+        <div class="promo-input-group">
+            <input type="text" id="shop-promo-input" placeholder="PROMO123">
+            <button class="btn-apply-promo" onclick="applyPromoCode()">Kiritish</button>
+        </div>
+        <p id="promo-status-msg" class="promo-message hidden"></p>
+    </div>
+</div>
