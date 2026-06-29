@@ -1,1 +1,58 @@
-html
+<div class="page-wrapper anime-page animate-fade-in">
+    <div class="search-filter-wrapper">
+        <div class="search-box-glass">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="anime-search-input" placeholder="Anime nomini yozing...">
+        </div>
+        <div class="genre-filter-scroll" id="genre-filter-container">
+            <span class="genre-badge active" data-genre="all">Barchasi</span>
+            <span class="genre-badge" data-genre="shounen">Shounen</span>
+            <span class="genre-badge" data-genre="action">Action</span>
+            <span class="genre-badge" data-genre="fantasy">Fantasy</span>
+            <span class="genre-badge" data-genre="romance">Romance</span>
+        </div>
+    </div>
+
+    <main class="anime-grid-catalog" id="anime-catalog-grid">
+        </main>
+
+    <div id="anime-details-modal" class="modal-overlay hidden">
+        <div class="modal-content-glass animate-slide-up">
+            <button class="close-modal-btn" onclick="closeAnimeModal()"><i class="fas fa-times"></i></button>
+            
+            <div class="modal-hero-banner" id="modal-banner-img">
+                <div class="modal-hero-overlay">
+                    <span id="modal-premium-tag" class="premium-badge-modal hidden"><i class="fas fa-crown"></i> PREMIUM</span>
+                    <h2 id="modal-anime-title">Anime Nomlanishi</h2>
+                </div>
+            </div>
+
+            <div class="modal-body-scroll">
+                <div class="anime-meta-row">
+                    <span id="modal-anime-rating"><i class="fas fa-star text-warning"></i> 0.0</span>
+                    <span id="modal-anime-genre"><i class="fas fa-tags"></i> Janr</span>
+                    <button id="modal-fav-btn" class="fav-action-btn"><i class="far fa-heart"></i> Saqlash</button>
+                </div>
+
+                <p id="modal-anime-description" class="anime-description-text">
+                    Anime haqida qisqacha tavsif matni shu yerda paydo bo'ladi.
+                </p>
+
+                <div id="premium-lock-container" class="premium-lock-box hidden">
+                    <i class="fas fa-lock lock-icon"></i>
+                    <h3>Ushbu Anime Premium Hisoblanadi</h3>
+                    <p>Ko'rishni davom ettirish uchun tangalar yordamida premium statusini oching.</p>
+                    <button class="btn-unlock-premium" onclick="unlockAnimeWithCoins()">
+                        <i class="fas fa-coins"></i> <span id="unlock-cost-text">100</span> Coin bilan ochish
+                    </button>
+                </div>
+
+                <div id="episodes-wrapper">
+                    <h4 class="episodes-title">Mavsumlar va Epizodlar</h4>
+                    <div class="episodes-list-grid" id="modal-episodes-container">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
