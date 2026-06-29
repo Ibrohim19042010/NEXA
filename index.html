@@ -5,71 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NEXA - Premium Anime Platform</title>
 
-    <!-- Telegram Web App API (Majburiy) -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-    <!-- Font Awesome (Ikonkalar uchun) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Google Fonts (Dizayn talabiga ko'ra chiroyli shrift, masalan: Poppins) -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Asosiy CSS fayllarni ulash -->
-    <link rel="stylesheet" href="css/style.css"> <!-- Umumiy stillar shu yerda bo'ladi deb faraz qilamiz -->
+    
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="dark-theme">
 
-    <!-- SPA Asosiy Konteyneri: Barcha pages/ fayllari shu div ichiga yuklanadi -->
     <main id="app" class="app-container">
-        <!-- Dastlabki yuklanish (Loading) ekrani -->
         <div class="initial-loader">
             <i class="fas fa-spinner fa-spin loading-icon"></i>
             <p>NEXA ishga tushmoqda...</p>
         </div>
     </main>
 
-    <!-- Pastki Navigatsiya Menyu (Bottom Navigation) -->
     <nav class="bottom-nav-glass" id="bottom-navigation">
         <button class="nav-item active" onclick="handleNavClick('home', this)">
-            <i class="fas fa-home"></i>
-            <span>Asosiy</span>
+            <i class="fas fa-home"></i> <span>Asosiy</span>
         </button>
         <button class="nav-item" onclick="handleNavClick('anime', this)">
-            <i class="fas fa-compass"></i>
-            <span>Katalog</span>
+            <i class="fas fa-compass"></i> <span>Katalog</span>
         </button>
         <button class="nav-item" onclick="handleNavClick('quiz', this)">
-            <i class="fas fa-brain"></i>
-            <span>Viktorina</span>
+            <i class="fas fa-brain"></i> <span>Viktorina</span>
         </button>
         <button class="nav-item" onclick="handleNavClick('chat', this)">
-            <i class="fas fa-comments"></i>
-            <span>Chat</span>
+            <i class="fas fa-comments"></i> <span>Chat</span>
         </button>
         <button class="nav-item" onclick="handleNavClick('profile', this)">
-            <i class="fas fa-user"></i>
-            <span>Profil</span>
+            <i class="fas fa-user"></i> <span>Profil</span>
         </button>
     </nav>
 
-    <!-- Kichik skript: Navigatsiyadagi 'active' (tanlangan) klassni almashtirish uchun -->
     <script>
         function handleNavClick(pageName, element) {
-            // JS dagi global navigateToPage funksiyasini chaqirish
-            if (window.navigateToPage) {
-                window.navigateToPage(pageName);
-            }
-
-            // Barcha tugmalardan 'active' klassini olib tashlash
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => item.classList.remove('active'));
-
-            // Bosilgan tugmaga 'active' klassini qo'shish
+            if (window.navigateToPage) window.navigateToPage(pageName);
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             element.classList.add('active');
         }
     </script>
 
-    <!-- Asosiy JS Module ni ulash -->
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
