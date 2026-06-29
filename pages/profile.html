@@ -1,1 +1,44 @@
-html
+<div class="page-wrapper profile-page animate-fade-in">
+    <div class="profile-main-card-glass">
+        <div class="profile-avatar-wrapper">
+            <img src="" id="profile-big-avatar" alt="Avatar" class="main-avatar-img">
+            <div class="profile-rank-badge" id="profile-rank-title">E-Rank</div>
+        </div>
+        <h2 id="profile-username" class="profile-user-title">@hunter_name</h2>
+        
+        <div class="profile-stats-row">
+            <div class="stat-item">
+                <span class="stat-val" id="profile-stat-coins">0</span>
+                <span class="stat-lbl"><i class="fas fa-coins text-warning"></i> Coins</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-val" id="profile-stat-xp">0</span>
+                <span class="stat-lbl"><i class="fas fa-bolt text-xp"></i> Total XP</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-section-card">
+        <h3 class="block-title"><i class="fas fa-user-plus"></i> Do'stlarni taklif qilish</h3>
+        <p class="block-desc">Har bir taklif qilingan foydalanuvchi uchun siz ham, do'stingiz ham 20 tadan Coin olasiz!</p>
+        <div class="referral-code-box">
+            <input type="text" id="referral-link-field" readonly value="NEXA_REF_CODE">
+            <button class="btn-copy-code" onclick="copyReferralLink()"><i class="far fa-copy"></i></button>
+        </div>
+    </div>
+
+    <div class="profile-section-card">
+        <h3 class="block-title"><i class="fas fa-trophy text-reward"></i> Mening Yutuqlarim (Achievements)</h3>
+        <div class="achievements-list-layout" id="profile-achievements-grid">
+            </div>
+    </div>
+
+    <div class="profile-actions-vertical">
+        <button class="btn-action-outline hidden" id="admin-panel-quick-btn" onclick="navigateToPage('add')">
+            <i class="fas fa-user-shield text-danger"></i> Admin & Assistant Panel
+        </button>
+        <button class="btn-action-outline" onclick="openSettingsModal()">
+            <i class="fas fa-cog"></i> Tizim Sozlamalari
+        </button>
+    </div>
+</div>
