@@ -1,37 +1,38 @@
 // js/app.js
-import { getUserData, formatNumber, tg } from './utils.js';
+import { tg, getUserData } from './utils.js';
 import { navigateToPage } from './navigation.js';
 import { fetchAnimes } from './anime.js';
 
-// Platforma yuklanganda
+// Dastur birinchi marta ochilganda ishlaydigan kod
 document.addEventListener('DOMContentLoaded', () => {
-    // WebApp orqali ranglarni moslashtirish (Telegram temasi)
-    document.documentElement.style.setProperty('--bg-color', tg.themeParams.bg_color || '#0d0d12');
-    document.documentElement.style.setProperty('--text-color', tg.themeParams.text_color || '#ffffff');
     
-    // Dastlabki sahifani yuklash
+    // Telegram Web App orqali ilovani to'liq ekranga ochish
+    tg.expand();
+
+    // Dastlabki sahifani yuklash (Home)
     navigateToPage('home');
 });
 
-// Home sahifasi logikasi
+// Asosiy (Home) sahifasi yuklanganda bajariladigan ishlar
 export const initHomeLogic = async () => {
     const user = getUserData();
     
-    // Foydalanuvchi ma'lumotlarini HTML ga yozish
+    // 1. Foydalanuvchi ismini chiqarish
     const nameEl = document.getElementById('user-display-name');
-    if (nameEl) nameEl.innerText = user.first_name || user.username;
+    if (nameEl) nameEl.innerText = user.first_name || user.username || "Hunter";
     
-    // Asosiy sahifaga trending animelarni chiqarish (namuna)
+    // 2. Trenddagi Animelarni Firebase'dan olib ekranga chizish
     const trendingContainer = document.getElementById('trending-anime-container');
     if(trendingContainer) {
         const animes = await fetchAnimes();
-        trendingContainer.innerHTML = '';
+        trendingContainer.innerHTML = ''; // Loadingni tozalash
         
+        // Faqat eng dastlabki 5 ta animeni trendga chiqaramiz
         animes.slice(0, 5).forEach(anime => {
             trendingContainer.innerHTML += `
                 <div class="trending-card" onclick="openAnimeModal(${JSON.stringify(anime).replace(/"/g, '&quot;')})">
-                    <img src="${anime.image || 'assets/default.jpg'}" alt="${anime.title}">
-                    <h5>${anime.title}</h5>
+                    <img src="${anime.image || 'assets/default.jpg'}" alt="${anime.title}" style="width:100px; height:150px; border-radius:10px;">
+                    <h5 style="margin-top:5px; font-size:12px;">${anime.title}</h5>
                 </div>
             `;
         });
