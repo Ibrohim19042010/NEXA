@@ -1,1 +1,78 @@
-html
+<div class="page-wrapper admin-panel-page animate-fade-in">
+    <div class="admin-panel-header">
+        <h2><i class="fas fa-tools"></i> Konsol Boshqaruvi</h2>
+        <span id="admin-role-badge" class="role-badge">Tekshirilmoqda...</span>
+    </div>
+
+    <div class="admin-tabs">
+        <button class="admin-tab-btn active" onclick="switchAdminTab('anime')">Anime Qo'shish</button>
+        <button class="admin-tab-btn" onclick="switchAdminTab('quiz')">Quiz Blok</button>
+        <button class="admin-tab-btn id-only-admin" id="admin-users-tab-btn" onclick="switchAdminTab('users')">Foydalanuvchilar</button>
+    </div>
+
+    <div id="admin-tab-content-anime" class="admin-tab-panel">
+        <form id="admin-anime-form" onsubmit="handleAnimeSubmit(event)">
+            <div class="form-group-glass">
+                <label>Anime Nomi</label>
+                <input type="text" id="adm-anime-title" required placeholder="Masalan: Solo Leveling">
+            </div>
+            <div class="form-group-glass">
+                <label>Janr (Vergul bilan ajrating)</label>
+                <input type="text" id="adm-anime-genres" required placeholder="Action, Fantasy">
+            </div>
+            <div class="form-group-glass">
+                <label>Tavsif (Description)</label>
+                <textarea id="adm-anime-desc" required rows="3"></textarea>
+            </div>
+            <div class="form-group-glass checkbox-row">
+                <label for="adm-anime-premium">Premium Kontent</label>
+                <input type="checkbox" id="adm-anime-premium">
+            </div>
+            <button type="submit" class="btn-submit-admin">Ma'lumotlar bazasiga joylash</button>
+        </form>
+    </div>
+
+    <div id="admin-tab-content-quiz" class="admin-tab-panel hidden">
+        <form id="admin-quiz-form" onsubmit="handleQuizSubmit(event)">
+            <div class="form-group-glass">
+                <label>Tegishli Anime Nomi</label>
+                <input type="text" id="adm-quiz-anime-src" required placeholder="Naruto">
+            </div>
+            <div class="form-group-glass">
+                <label>Savol Matni</label>
+                <input type="text" id="adm-quiz-question" required placeholder="Luffyniyng laqabi nima?">
+            </div>
+            <div class="form-group-glass">
+                <label>To'g'ri Javob Varianti</label>
+                <input type="text" id="adm-quiz-correct" required placeholder="Mugiwara">
+            </div>
+            <div class="form-group-glass">
+                <label>Noto'g'ri Javob 1</label>
+                <input type="text" id="adm-quiz-wrong1" required>
+            </div>
+            <div class="form-group-glass">
+                <label>Noto'g'ri Javob 2</label>
+                <input type="text" id="adm-quiz-wrong2" required>
+            </div>
+            <div class="form-group-glass">
+                <label>Noto'g'ri Javob 3</label>
+                <input type="text" id="adm-quiz-wrong3" required>
+            </div>
+            <button type="submit" class="btn-submit-admin">Savolni Blokga Qo'shish</button>
+        </form>
+    </div>
+
+    <div id="admin-tab-content-users" class="admin-tab-panel hidden">
+        <div class="user-search-control">
+            <input type="text" id="adm-user-search" placeholder="Foydalanuvchi ID yoki Username...">
+        </div>
+        <div class="user-management-actions-box">
+            <p>Tanlangan foydalanuvchi bo'yicha operatsiyalar:</p>
+            <div class="admin-actions-grid">
+                <button class="btn-danger" onclick="executeUserAction('ban')">Ban qilish</button>
+                <button class="btn-success" onclick="executeUserAction('unban')">Bandan yechish</button>
+                <button class="btn-warning" onclick="executeUserAction('give_coins')">+50 Coin Berish</button>
+            </div>
+        </div>
+    </div>
+</div>
