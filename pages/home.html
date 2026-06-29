@@ -1,1 +1,72 @@
+<div class="page-wrapper home-page animate-fade-in">
+    <section class="user-card-glass">
+        <div class="user-profile-header">
+            <div class="avatar-container">
+                <img src="" id="user-avatar" alt="Avatar" class="profile-avatar-img">
+                <span id="user-rank-badge" class="rank-badge shadow-monarch">E</span>
+            </div>
+            <div class="user-info-text">
+                <h3 id="user-display-name">Yuklanmoqda...</h3>
+                <div class="coin-display">
+                    <i class="fas fa-coins coin-icon"></i>
+                    <span id="user-coins">0</span> Coin
+                </div>
+            </div>
+        </div>
+        
+        <div class="xp-container">
+            <div class="xp-labels">
+                <span id="current-rank-name">E-Rank Hunter</span>
+                <span id="xp-text">0 / 100 XP</span>
+            </div>
+            <div class="xp-bar-bg">
+                <div id="xp-progress-bar" class="xp-bar-fill" style="width: 0%"></div>
+            </div>
+        </div>
+    </section>
 
+    <section class="daily-widgets-grid">
+        <div class="widget-box daily-bonus-btn" onclick="checkDailyBonus()">
+            <i class="fas fa-calendar-check widget-icon"></i>
+            <div>
+                <h4>Daily Bonus</h4>
+                <p class="subtitle">7 kunlik mukofot</p>
+            </div>
+        </div>
+        <div class="widget-box daily-mission-btn" onclick="openDailyMissions()">
+            <i class="fas fa-tasks widget-icon"></i>
+            <div>
+                <h4>Daily Mission</h4>
+                <p class="subtitle" id="mission-count">0/3 bajarildi</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="anime-carousel-section hidden" id="continue-watching-section">
+        <h3 class="section-title"><i class="fas fa-play-circle text-primary"></i> Tomosha qilishni davom ettirish</h3>
+        <div class="horizontal-scroll" id="continue-watching-container">
+            </div>
+    </section>
+
+    <section class="anime-carousel-section">
+        <h3 class="section-title"><i class="fas fa-fire text-trending"></i> Trending Anime</h3>
+        <div class="horizontal-scroll" id="trending-anime-container">
+            </div>
+    </section>
+
+    <section class="anime-carousel-section">
+        <h3 class="section-title"><i class="fas fa-crown text-premium"></i> Premium Anime</h3>
+        <div class="horizontal-scroll" id="premium-anime-container">
+            </div>
+    </section>
+
+    <section class="quiz-banner-card" onclick="navigateToPage('quiz')">
+        <div class="quiz-banner-content">
+            <span class="badge-new">NEW</span>
+            <h3>Weekly Quiz Event</h3>
+            <p>20 ta savolga javob bering va katta hajmdagi Coin yutib oling!</p>
+            <span class="attempts-left">Qolgan urinishlar: <strong id="home-quiz-attempts">3</strong>/3</span>
+        </div>
+        <i class="fas fa-brain quiz-banner-icon"></i>
+    </section>
+</div>
