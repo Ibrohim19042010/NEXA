@@ -1,184 +1,75 @@
 <!DOCTYPE html>
 <html lang="uz">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NEXA - Premium Anime Platform</title>
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <meta name="theme-color" content="#0B0B0B">
-
-    <meta name="description"
-        content="NEXA Premium Anime Platform">
-
-    <title>NEXA</title>
-
-    <!-- Telegram -->
+    <!-- Telegram Web App API (Majburiy) -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome (Ikonkalar uchun) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- FontAwesome -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Google Fonts (Dizayn talabiga ko'ra chiroyli shrift, masalan: Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/animation.css">
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/anime.css">
-    <link rel="stylesheet" href="css/chat.css">
-    <link rel="stylesheet" href="css/quiz.css">
-    <link rel="stylesheet" href="css/profile.css">
-    <link rel="stylesheet" href="css/admin.css">
-    <link rel="stylesheet" href="css/shop.css">
-    <link rel="stylesheet" href="css/leaderboard.css">
-    <link rel="stylesheet" href="css/achievement.css">
-    <link rel="stylesheet" href="css/premium.css">
-    <link rel="stylesheet" href="css/modal.css">
-    <link rel="stylesheet" href="css/responsive.css">
-
+    <!-- Asosiy CSS fayllarni ulash -->
+    <link rel="stylesheet" href="css/style.css"> <!-- Umumiy stillar shu yerda bo'ladi deb faraz qilamiz -->
 </head>
+<body class="dark-theme">
 
-<body>
-
-    <!-- Loading Screen -->
-
-    <div id="loading-screen">
-
-        <div class="loader">
-
-            <div class="loader-logo">
-
-                ⚔️
-
-            </div>
-
-            <h1>NEXA</h1>
-
-            <p>Shadow System Loading...</p>
-
-            <div class="loading-bar">
-
-                <div id="loading-progress"></div>
-
-            </div>
-
+    <!-- SPA Asosiy Konteyneri: Barcha pages/ fayllari shu div ichiga yuklanadi -->
+    <main id="app" class="app-container">
+        <!-- Dastlabki yuklanish (Loading) ekrani -->
+        <div class="initial-loader">
+            <i class="fas fa-spinner fa-spin loading-icon"></i>
+            <p>NEXA ishga tushmoqda...</p>
         </div>
+    </main>
 
-    </div>
+    <!-- Pastki Navigatsiya Menyu (Bottom Navigation) -->
+    <nav class="bottom-nav-glass" id="bottom-navigation">
+        <button class="nav-item active" onclick="handleNavClick('home', this)">
+            <i class="fas fa-home"></i>
+            <span>Asosiy</span>
+        </button>
+        <button class="nav-item" onclick="handleNavClick('anime', this)">
+            <i class="fas fa-compass"></i>
+            <span>Katalog</span>
+        </button>
+        <button class="nav-item" onclick="handleNavClick('quiz', this)">
+            <i class="fas fa-brain"></i>
+            <span>Viktorina</span>
+        </button>
+        <button class="nav-item" onclick="handleNavClick('chat', this)">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </button>
+        <button class="nav-item" onclick="handleNavClick('profile', this)">
+            <i class="fas fa-user"></i>
+            <span>Profil</span>
+        </button>
+    </nav>
 
-    <!-- App -->
+    <!-- Kichik skript: Navigatsiyadagi 'active' (tanlangan) klassni almashtirish uchun -->
+    <script>
+        function handleNavClick(pageName, element) {
+            // JS dagi global navigateToPage funksiyasini chaqirish
+            if (window.navigateToPage) {
+                window.navigateToPage(pageName);
+            }
 
-    <div id="app">
+            // Barcha tugmalardan 'active' klassini olib tashlash
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
 
-        <!-- Header -->
+            // Bosilgan tugmaga 'active' klassini qo'shish
+            element.classList.add('active');
+        }
+    </script>
 
-        <header id="header"></header>
-
-        <!-- Main -->
-
-        <main id="page-container">
-
-        </main>
-
-        <!-- Bottom Navigation -->
-
-        <nav id="bottom-navigation">
-
-            <button class="nav-btn active" data-page="home">
-
-                <i class="fa-solid fa-house"></i>
-
-                <span>Home</span>
-
-            </button>
-
-            <button class="nav-btn" data-page="anime">
-
-                <i class="fa-solid fa-tv"></i>
-
-                <span>Anime</span>
-
-            </button>
-
-            <button class="nav-btn" data-page="quiz">
-
-                <i class="fa-solid fa-brain"></i>
-
-                <span>Quiz</span>
-
-            </button>
-
-            <button class="nav-btn" data-page="chat">
-
-                <i class="fa-solid fa-comments"></i>
-
-                <span>Chat</span>
-
-            </button>
-
-            <button class="nav-btn" data-page="profile">
-
-                <i class="fa-solid fa-user"></i>
-
-                <span>Profile</span>
-
-            </button>
-
-        </nav>
-
-    </div>
-
-    <!-- Modal -->
-
-    <div id="modal-container"></div>
-
-    <!-- Firebase -->
-
-    <script type="module" src="firebase/config.js"></script>
-
-    <script type="module" src="firebase/database.js"></script>
-
-    <script type="module" src="firebase/auth.js"></script>
-
-    <!-- JS -->
-
-    <script src="js/utils.js"></script>
-
-    <script src="js/navigation.js"></script>
-
-    <script src="js/app.js"></script>
-
-    <script src="js/anime.js"></script>
-
-    <script src="js/chat.js"></script>
-
-    <script src="js/quiz.js"></script>
-
-    <script src="js/profile.js"></script>
-
-    <script src="js/premium.js"></script>
-
-    <script src="js/coins.js"></script>
-
-    <script src="js/rank.js"></script>
-
-    <script src="js/achievement.js"></script>
-
-    <script src="js/leaderboard.js"></script>
-
-    <script src="js/admin.js"></script>
-
-    <script src="js/assistant.js"></script>
-
-    <script src="js/notification.js"></script>
-
+    <!-- Asosiy JS Module ni ulash -->
+    <script type="module" src="js/app.js"></script>
 </body>
-
 </html>
