@@ -1,38 +1,52 @@
 [
   {
-    "id": "first_steps",
-    "title": "Birinchi Qadam",
-    "description": "Ilovada muvaffaqiyatli ro'yxatdan o'ting",
-    "reward_coins": 100,
-    "reward_xp": 50,
-    "icon": "fa-user-plus",
-    "secret": false
+    "id": "ach_first_blood",
+    "title": "Birinchi Qon",
+    "description": "Ilovada birinchi marta ro'yxatdan o'tdingiz va profil yaratdingiz.",
+    "category": "system",
+    "difficulty": "easy",
+    "reward": { "coins": 100, "xp": 50, "premium_days": 0 },
+    "icon": "fa-user-astronaut",
+    "is_secret": false
   },
   {
-    "id": "quiz_master_1",
-    "title": "Viktorina Bilimdoni I",
-    "description": "Ketma-ket 10 ta savolga to'g'ri javob bering",
-    "reward_coins": 250,
-    "reward_xp": 150,
+    "id": "ach_quiz_master_1",
+    "title": "Viktorina Shogirdi",
+    "description": "Viktorinada jami 50 ta savolga to'g'ri javob bering.",
+    "category": "quiz",
+    "difficulty": "medium",
+    "reward": { "coins": 300, "xp": 200, "premium_days": 0 },
     "icon": "fa-brain",
-    "secret": false
+    "is_secret": false
   },
   {
-    "id": "anime_lover",
+    "id": "ach_quiz_master_max",
+    "title": "Barcha Narsani Biluvchi",
+    "description": "Hech qanday xatosiz ketma-ket 100 ta savolga to'g'ri javob toping.",
+    "category": "quiz",
+    "difficulty": "legendary",
+    "reward": { "coins": 5000, "xp": 2000, "premium_days": 3 },
+    "icon": "fa-crown",
+    "is_secret": true
+  },
+  {
+    "id": "ach_otaku_watcher",
     "title": "Haqiqiy Otaku",
-    "description": "Katalogdan 5 ta animeni sevimlilar ro'yxatiga qo'shing",
-    "reward_coins": 150,
-    "reward_xp": 100,
-    "icon": "fa-heart",
-    "secret": false
+    "description": "Katalogdan 20 ta animeni 'Ko'rilganlar' ro'yxatiga qo'shing.",
+    "category": "anime",
+    "difficulty": "medium",
+    "reward": { "coins": 500, "xp": 300, "premium_days": 0 },
+    "icon": "fa-eye",
+    "is_secret": false
   },
   {
-    "id": "rich_buyer",
-    "title": "Tijoratchi",
-    "description": "Do'kondan birinchi marta narsa sotib oling",
-    "reward_coins": 0,
-    "reward_xp": 200,
-    "icon": "fa-shopping-bag",
-    "secret": false
+    "id": "ach_night_owl",
+    "title": "Tungi Boyqush",
+    "description": "Tungi soat 02:00 dan keyin ilovadan foydalaning.",
+    "category": "activity",
+    "difficulty": "hard",
+    "reward": { "coins": 150, "xp": 100, "premium_days": 0 },
+    "icon": "fa-moon",
+    "is_secret": true
   }
 ]
