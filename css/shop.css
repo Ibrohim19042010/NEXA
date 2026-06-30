@@ -1,1 +1,149 @@
- 
+/* css/shop.css - Do'kon sahifasi uchun to'liq va mukammal dizayn */
+
+/* 1. Asosiy sahifa konteyneri */
+.shop-container {
+    padding: 15px;
+    padding-bottom: 90px; /* Pastki menyu yopib qo'ymasligi uchun */
+    color: var(--text-light);
+}
+
+/* 2. Yuqori qism (Sarlavha va Balans ko'rsatkichi) */
+.shop-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: linear-gradient(180deg, rgba(0, 255, 136, 0.1), transparent);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--glass-border);
+}
+
+.shop-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Foydalanuvchining tangalarini ko'rsatuvchi karta */
+.user-balance-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+}
+
+.user-balance-card i { 
+    color: #f39c12; /* Oltin tanga rangi */
+    font-size: 24px; 
+}
+
+.user-balance-card span { 
+    font-size: 20px; 
+    font-weight: bold; 
+    color: #fff;
+}
+
+/* 3. Mahsulotlar joylashadigan to'r (Grid) */
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+/* 4. Har bir mahsulot kartochkasi */
+.shop-item {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-md);
+    padding: 20px 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.shop-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Mahsulot rasmi yoki ikonkalari */
+.shop-item-img {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 15px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+    transition: transform 0.3s ease;
+}
+
+.shop-item:hover .shop-item-img {
+    transform: scale(1.1);
+}
+
+/* Mahsulot nomi va narxi */
+.shop-item h4 { 
+    font-size: 16px; 
+    margin: 0 0 8px 0; 
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.shop-item .item-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #f39c12; /* Tanga rangi */
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+/* 5. Sotib olish tugmasi */
+.buy-item-btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--primary-color);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.buy-item-btn:hover:not(:disabled) {
+    background: var(--primary-hover);
+}
+
+/* Agar mablag' yetarli bo'lmasa yoki tugma o'chirilgan bo'lsa */
+.buy-item-btn:disabled {
+    background: #333;
+    color: #777;
+    cursor: not-allowed;
+    border: 1px solid #444;
+}
+
+/* Premium mahsulotlar uchun maxsus effekt (ixtiyoriy) */
+.shop-item.premium-item {
+    border-color: rgba(255, 215, 0, 0.5);
+    background: linear-gradient(145deg, rgba(255, 215, 0, 0.05), transparent);
+}
+.shop-item.premium-item .buy-item-btn {
+    background: linear-gradient(90deg, #ffd700, #ffaa00);
+}
