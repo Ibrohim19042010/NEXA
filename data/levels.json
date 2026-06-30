@@ -1,1 +1,32 @@
- 
+[
+  {
+    "level": 1,
+    "required_xp": 0,
+    "reward_coins": 0,
+    "title": "Akademiya Talabasi"
+  },
+  {
+    "level": 2,
+    "required_xp": 100,
+    "reward_coins": 50,
+    "title": "Gennin"
+  },
+  {
+    "level": 3,
+    "required_xp": 300,
+    "reward_coins": 100,
+    "title": "Chuunin"
+  },
+  {
+    "level": 4,
+    "required_xp": 700,
+    "reward_coins": 200,
+    "title": "Jounin"
+  },
+  {
+    "level": 5,
+    "required_xp": 1500,
+    "reward_coins": 500,
+    "title": "Kage / Elita"
+  }
+]
