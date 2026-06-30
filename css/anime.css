@@ -1,1 +1,40 @@
- 
+/* css/anime.css */
+.anime-card {
+    position: relative;
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    background: #222;
+}
+.anime-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,255,136,0.2);
+}
+.anime-cover {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+}
+.anime-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.9));
+}
+.anime-title {
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 0 3px 0;
+}
+.anime-meta {
+    font-size: 11px;
+    color: var(--primary-color);
+    display: flex;
+    justify-content: space-between;
+}
