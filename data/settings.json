@@ -1,1 +1,17 @@
- 
+{
+  "app_version": "1.0.0",
+  "maintenance_mode": false,
+  "currency_name": "NexaCoin",
+  "quiz_timer_seconds": 20,
+  "max_daily_energy": 5,
+  "energy_regen_time_minutes": 30,
+  "social_links": {
+    "telegram_channel": "https://t.me/nexa_anime",
+    "support_bot": "https://t.me/nexa_support_bot"
+  },
+  "features": {
+    "enable_shop": true,
+    "enable_chat_ai": true,
+    "enable_leaderboard": true
+  }
+}
