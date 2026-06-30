@@ -1,1 +1,45 @@
- 
+/* css/leaderboard.css */
+.leaderboard-header {
+    text-align: center;
+    padding: 30px 15px 20px 15px;
+    background: linear-gradient(135deg, rgba(0,123,255,0.2), transparent);
+}
+.top-three {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+.podium {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.podium .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #ccc;
+    margin-bottom: 10px;
+}
+.podium.rank-1 .avatar { width: 80px; height: 80px; border-color: var(--premium-gold); }
+.podium.rank-2 .avatar { border-color: #c0c0c0; }
+.podium.rank-3 .avatar { border-color: #cd7f32; }
+.rank-list {
+    padding: 15px;
+}
+.rank-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background: var(--glass-bg);
+    border-radius: var(--border-radius-md);
+    margin-bottom: 10px;
+}
+.rank-num {
+    font-size: 16px;
+    font-weight: bold;
+    width: 30px;
+    color: var(--text-muted);
+}
