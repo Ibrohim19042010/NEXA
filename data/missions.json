@@ -1,26 +1,38 @@
 [
   {
-    "id": "daily_login",
-    "text": "Ilovaga kunlik kirish",
-    "target_count": 1,
-    "reward_coins": 20,
-    "reward_xp": 10,
-    "type": "daily"
+    "id": "msn_daily_login",
+    "title": "Kunlik Qadam",
+    "description": "Ilovaga bugun tashrif buyuring.",
+    "type": "daily",
+    "target": 1,
+    "action_key": "login",
+    "reward": { "coins": 50, "xp": 20 }
   },
   {
-    "id": "play_quizzes",
-    "text": "Viktorinada 3 marta o'ynash",
-    "target_count": 3,
-    "reward_coins": 60,
-    "reward_xp": 30,
-    "type": "daily"
+    "id": "msn_daily_quiz",
+    "title": "Aql charxi",
+    "description": "Viktorinada kamida 3 marta ishtirok eting.",
+    "type": "daily",
+    "target": 3,
+    "action_key": "play_quiz",
+    "reward": { "coins": 100, "xp": 50 }
   },
   {
-    "id": "watch_ad",
-    "text": "Haftalik 5 ta anime epizodini ko'rish",
-    "target_count": 5,
-    "reward_coins": 150,
-    "reward_xp": 70,
-    "type": "weekly"
+    "id": "msn_weekly_anime",
+    "title": "Kinomanyak",
+    "description": "Shu hafta ichida 10 ta turli xil anime sahifasiga kiring.",
+    "type": "weekly",
+    "target": 10,
+    "action_key": "view_anime",
+    "reward": { "coins": 500, "xp": 300 }
+  },
+  {
+    "id": "msn_weekly_invite",
+    "title": "Do'stlar davrasida",
+    "description": "Referal ssilkangiz orqali 2 ta do'stingizni botga taklif qiling.",
+    "type": "weekly",
+    "target": 2,
+    "action_key": "invite_friend",
+    "reward": { "coins": 1000, "xp": 500 }
   }
 ]
