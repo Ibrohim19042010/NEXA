@@ -1,75 +1,26 @@
-:root{
+/* css/variables.css */
+:root {
+    /* Asosiy ranglar */
+    --bg-color-main: #0f0f13;
+    --primary-color: #00ff88;
+    --primary-hover: #00cc6a;
+    --accent-blue: #007bff;
+    --premium-gold: #ffd700;
+    
+    /* Matn ranglari */
+    --text-light: #ffffff;
+    --text-muted: #a0a0a0;
+    --text-dark: #121212;
 
-/* Colors */
-
---primary:#6C5CE7;
---secondary:#00D4FF;
---accent:#FFD700;
-
---background:#090909;
---surface:#121212;
---surface-light:#1A1A1A;
-
---text:#FFFFFF;
---text-secondary:#B8B8B8;
-
---success:#2ECC71;
---warning:#F39C12;
---danger:#E74C3C;
-
---premium:#FFB300;
---shadow:#7F5AF0;
-
-/* Rank Colors */
-
---rank-e:#808080;
---rank-d:#27AE60;
---rank-c:#3498DB;
---rank-b:#9B59B6;
---rank-a:#F39C12;
---rank-s:#E74C3C;
---rank-ss:#FF006E;
---rank-monarch:#FFD700;
-
-/* Border */
-
---border:1px solid rgba(255,255,255,.08);
-
-/* Radius */
-
---radius-xs:6px;
---radius-sm:10px;
---radius-md:16px;
---radius-lg:22px;
---radius-xl:30px;
-
-/* Shadow */
-
---shadow-sm:0 4px 10px rgba(0,0,0,.2);
---shadow-md:0 8px 20px rgba(0,0,0,.35);
---shadow-lg:0 10px 35px rgba(0,0,0,.45);
-
-/* Font */
-
---font:'Poppins',sans-serif;
-
-/* Header */
-
---header-height:70px;
-
-/* Bottom Nav */
-
---bottom-nav-height:72px;
-
-/* Animation */
-
---transition:.3s ease;
-
-/* Z-index */
-
---z-loading:9999;
---z-modal:900;
---z-header:200;
---z-nav:150;
-
-} 
+    /* Glassmorphism fonlar */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    
+    /* O'lchamlar va boshqalar */
+    --nav-height: 65px;
+    --border-radius-sm: 8px;
+    --border-radius-md: 15px;
+    --border-radius-lg: 25px;
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+}
