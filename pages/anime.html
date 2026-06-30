@@ -1,1 +1,317 @@
-html
+<!-- pages/anime.html -->
+
+<div class="catalog-page-container">
+    
+    <!-- 1. Qidiruv va Janrlar bo'limi -->
+    <header class="catalog-header">
+        <div class="search-bar-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="anime-search-input" placeholder="Anime nomini yozing..." oninput="filterAnimeCatalog()">
+        </div>
+        
+        <!-- Janr filtrlari -->
+        <div class="genre-filter-scroll">
+            <button class="genre-btn active" onclick="filterByGenre('all', this)">Hammasi</button>
+            <button class="genre-btn" onclick="filterByGenre('Shounen', this)">Shounen</button>
+            <button class="genre-btn" onclick="filterByGenre('Seinen', this)">Seinen</button>
+            <button class="genre-btn" onclick="filterByGenre('Isekai', this)">Isekai</button>
+            <button class="genre-btn" onclick="filterByGenre('Ongoing', this)">Ongoing</button>
+        </div>
+    </header>
+
+    <!-- 2. Animelar ko'rinadigan asosiy Grid (Katalog) -->
+    <section class="catalog-content">
+        <h3 class="section-title">Barcha Animelar</h3>
+        <div id="anime-catalog-grid" class="anime-cards-grid">
+            <!-- Dynamic kartochkalar js/anime.js orqali shu yerga joylashadi -->
+            <div class="page-loader">
+                <i class="fas fa-circle-notch fa-spin loading-icon"></i>
+                <p>Katalog yuklanmoqda...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. DETALNIY MODAL OYNA (Anime ustiga bosganda ochiladigan Player) -->
+    <div id="anime-details-modal" class="anime-modal overlay-backdrop hidden">
+        <div class="modal-glass-content">
+            
+            <!-- Modalni yopish tugmasi -->
+            <button class="close-modal-btn" onclick="closeAnimeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Anime Banner va Asosiy Ma'lumotlar -->
+            <div class="modal-hero-banner" id="modal-anime-banner">
+                <div class="banner-overlay">
+                    <span class="premium-badge hidden" id="modal-anime-premium-tag">
+                        <i class="fas fa-crown"></i> PREMIUM
+                    </span>
+                    <h2 id="modal-anime-title">Anime Nomlanishi</h2>
+                    <p id="modal-anime-genres" class="modal-genres-list">Janrlar: Yuklanmoqda...</p>
+                </div>
+            </div>
+
+            <!-- Video Pleyer hududi -->
+            <div class="video-player-container">
+                <div class="video-wrapper">
+                    <iframe id="nexa-video-frame" src="" frameborder="0" allowfullscreen class="hidden"></iframe>
+                    <div id="player-placeholder" class="player-placeholder-box">
+                        <i class="fas fa-play-circle" onclick="startPlayingEpisode()"></i>
+                        <p>Tomosha qilish uchun epizodni tanlang</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Epizodlar Ro'yxati -->
+            <div class="modal-episodes-section">
+                <h3>Epizodlar</h3>
+                <div id="modal-episodes-wrapper" class="episodes-btn-grid">
+                    <!-- Epizod tugmalari js orqali dinamik chiqadi -->
+                </div>
+            </div>
+
+            <!-- Anime Tavsifi -->
+            <div class="modal-description-section">
+                <h3>Sujet va Tavsif</h3>
+                <p id="modal-anime-description">
+                    Ushbu anime haqida qisqacha ma'lumotlar bazadan olinmoqda...
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Ushbu sahifaga xos CSS stillar (dizayn buzilmasligi uchun) -->
+<style>
+    .catalog-page-container {
+        padding: 15px;
+        padding-bottom: 90px;
+        color: #fff;
+    }
+    .search-bar-wrapper {
+        position: relative;
+        margin-bottom: 15px;
+    }
+    .search-bar-wrapper input {
+        width: 100%;
+        padding: 12px 15px 12px 40px;
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        color: #fff;
+        outline: none;
+        font-family: inherit;
+    }
+    .search-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+    }
+    .genre-filter-scroll {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        scrollbar-width: none;
+    }
+    .genre-filter-scroll::-webkit-scrollbar {
+        display: none;
+    }
+    .genre-btn {
+        padding: 6px 16px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 20px;
+        color: #ccc;
+        font-size: 13px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.3s ease;
+    }
+    .genre-btn.active, .genre-btn:hover {
+        background: #00ff88;
+        color: #000;
+        border-color: #00ff88;
+        font-weight: 600;
+        box-shadow: 0 0 10px rgba(0,255,136,0.3);
+    }
+    .section-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+    .anime-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 15px;
+    }
+    .page-loader {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 40px 0;
+        color: #888;
+    }
+    .loading-icon {
+        font-size: 24px;
+        color: #00ff88;
+        margin-bottom: 10px;
+    }
+    
+    /* Modal oynasi stillari */
+    .anime-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.85);
+        z-index: 1000;
+        display: flex;
+        align-items: flex-end;
+        transition: opacity 0.3s ease;
+    }
+    .modal-glass-content {
+        width: 100%;
+        height: 85vh;
+        background: rgba(20, 20, 25, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 25px 25px 0 0;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        overflow-y: auto;
+        padding: 20px;
+        position: relative;
+    }
+    .close-modal-btn {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        background: rgba(255,255,255,0.15);
+        border: none;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        color: #fff;
+        z-index: 10;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .modal-hero-banner {
+        height: 180px;
+        background-color: #222;
+        background-size: cover;
+        background-position: center;
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 15px;
+        position: relative;
+    }
+    .banner-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px 15px 15px 15px;
+        background: linear-gradient(transparent, rgba(0,0,0,0.9));
+    }
+    .banner-overlay h2 {
+        margin: 0 0 5px 0;
+        font-size: 20px;
+    }
+    .modal-genres-list {
+        margin: 0;
+        font-size: 12px;
+        color: #bbb;
+    }
+    .video-wrapper {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/9;
+        background: #000;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+    #nexa-video-frame {
+        width: 100%;
+        height: 100%;
+    }
+    .player-placeholder-box {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+        background: #111;
+    }
+    .player-placeholder-box i {
+        font-size: 50px;
+        color: #00ff88;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .player-placeholder-box i:hover {
+        transform: scale(1.1);
+        color: #fff;
+    }
+    .episodes-btn-grid {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding: 5px 0 15px 0;
+        scrollbar-width: none;
+    }
+    .episodes-btn-grid::-webkit-scrollbar {
+        display: none;
+    }
+    .episode-tab-btn {
+        padding: 10px 20px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        color: #fff;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: 0.2s;
+    }
+    .episode-tab-btn:hover, .episode-tab-btn.active {
+        background: #007bff;
+        border-color: #007bff;
+    }
+    .premium-badge {
+        background: #ffd700;
+        color: #000;
+        padding: 3px 8px;
+        font-size: 10px;
+        font-weight: 700;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 8px;
+        box-shadow: 0 0 8px rgba(255,215,0,0.5);
+    }
+    .modal-description-section h3, .modal-episodes-section h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: #ddd;
+    }
+    .modal-description-section p {
+        font-size: 13px;
+        line-height: 1.6;
+        color: #aaa;
+    }
+    .hidden {
+        display: none !important;
+    }
+</style>
