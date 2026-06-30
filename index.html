@@ -3,49 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NEXA - Premium Anime Platform</title>
+    <title>NEXA Anime App</title>
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Tashqi resurslar -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- CSS fayllarni ulash -->
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
-<body class="dark-theme">
+<body>
 
-    <main id="app" class="app-container">
-        <div class="initial-loader">
-            <i class="fas fa-spinner fa-spin loading-icon"></i>
-            <p>NEXA ishga tushmoqda...</p>
-        </div>
-    </main>
+    <!-- Ilova yuklanishi uchun konteyner -->
+    <div id="app">
+        
+        <!-- Yuqori qism (Header/Profil) -->
+        <header class="profile-header">
+            <img src="assets/images/avatars/default.png" alt="Avatar" class="avatar-img" id="user-avatar">
+            <div class="user-info">
+                <h2 id="user-name">Ibrohim</h2>
+                <p>E-Rank Hunter <span id="user-xp">0 / 100 XP</span></p>
+                <span class="coin-badge"><i class="fas fa-coins"></i> <span id="user-coins">0</span> Coin</span>
+            </div>
+        </header>
 
-    <nav class="bottom-nav-glass" id="bottom-navigation">
-        <button class="nav-item active" onclick="handleNavClick('home', this)">
-            <i class="fas fa-home"></i> <span>Asosiy</span>
-        </button>
-        <button class="nav-item" onclick="handleNavClick('anime', this)">
-            <i class="fas fa-compass"></i> <span>Katalog</span>
-        </button>
-        <button class="nav-item" onclick="handleNavClick('quiz', this)">
-            <i class="fas fa-brain"></i> <span>Viktorina</span>
-        </button>
-        <button class="nav-item" onclick="handleNavClick('chat', this)">
-            <i class="fas fa-comments"></i> <span>Chat</span>
-        </button>
-        <button class="nav-item" onclick="handleNavClick('profile', this)">
-            <i class="fas fa-user"></i> <span>Profil</span>
-        </button>
-    </nav>
+        <!-- Asosiy mazmun qismi -->
+        <main id="main-content">
+            <!-- Kunlik bonuslar -->
+            <section class="section-container">
+                <div class="card">
+                    <h3><i class="fas fa-calendar-check"></i> Daily Bonus</h3>
+                    <p>7 kunlik mukofot</p>
+                </div>
+            </section>
 
-    <script>
-        function handleNavClick(pageName, element) {
-            if (window.navigateToPage) window.navigateToPage(pageName);
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            element.classList.add('active');
-        }
-    </script>
+            <!-- Kunlik vazifalar -->
+            <section class="section-container">
+                <h3 class="section-title"><i class="fas fa-tasks"></i> Daily Mission</h3>
+                <div class="card">
+                    <p>0/3 bajarildi</p>
+                </div>
+            </section>
 
+            <!-- Trending Anime -->
+            <section class="section-container">
+                <h3 class="section-title"><i class="fas fa-fire"></i> Trending Anime</h3>
+                <div class="scroll-row">
+                    <div class="anime-card">
+                        <img src="assets/images/anime/naruto.jpg" alt="Naruto">
+                        <div class="title">Naruto</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Pastki navigatsiya menyusi -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-page="home">
+                <i class="fas fa-home"></i> Asosiy
+            </a>
+            <a href="#" class="nav-item" data-page="catalog">
+                <i class="fas fa-compass"></i> Katalog
+            </a>
+            <a href="#" class="nav-item" data-page="quiz">
+                <i class="fas fa-brain"></i> Viktorina
+            </a>
+            <a href="#" class="nav-item" data-page="chat">
+                <i class="fas fa-comments"></i> Chat
+            </a>
+            <a href="#" class="nav-item" data-page="profile">
+                <i class="fas fa-user"></i> Profil
+            </a>
+        </nav>
+    </div>
+
+    <!-- Asosiy mantiqiy JS faylni ulash -->
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
