@@ -1,1 +1,20 @@
- 
+[
+  {
+    "id": "badge_rookie",
+    "name": "Yangi Jangchi",
+    "description": "Loyihaga qo'shilgan barcha yangi foydalanuvchilarga beriladi",
+    "image_path": "assets/images/badges/rookie.png"
+  },
+  {
+    "id": "badge_donator",
+    "name": "Homiymiz",
+    "description": "Premium VIP statusini sotib olgan elita a'zolar uchun",
+    "image_path": "assets/images/badges/vip_star.png"
+  },
+  {
+    "id": "badge_champion",
+    "name": "Top-1 Lider",
+    "description": "Haftalik peshqadamlar jadvalida 1-o'rinni egallagan shaxs",
+    "image_path": "assets/images/badges/champion.png"
+  }
+]
