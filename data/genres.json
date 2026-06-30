@@ -1,1 +1,9 @@
- 
+[
+  {"id": "action", "name": "Eshn (Action)", "icon": "fa-bolt"},
+  {"id": "adventure", "name": "Sarguzasht", "icon": "fa-compass"},
+  {"id": "comedy", "name": "Komediya", "icon": "fa-laugh-wink"},
+  {"id": "fantasy", "name": "Fantaziya", "icon": "fa-wand-magic-sparkles"},
+  {"id": "romance", "name": "Romantika", "icon": "fa-heart"},
+  {"id": "shounen", "name": "Shounen", "icon": "fa-fire"},
+  {"id": "seinen", "name": "Seinen", "icon": "fa-skull-crossbones"}
+]
