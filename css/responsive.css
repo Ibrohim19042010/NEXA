@@ -1,1 +1,22 @@
- 
+/* css/responsive.css */
+@media screen and (min-width: 768px) {
+    /* Planshet yoki PC dagi Telegram Desktop uchun */
+    #app-container {
+        max-width: 450px;
+        margin: 0 auto;
+        border-left: 1px solid var(--glass-border);
+        border-right: 1px solid var(--glass-border);
+        box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    }
+    #bottom-nav {
+        max-width: 450px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .anime-cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
+    .global-modal-content {
+        max-width: 400px;
+    }
+}
