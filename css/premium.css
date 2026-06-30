@@ -1,1 +1,56 @@
- 
+/* css/premium.css */
+.premium-page {
+    padding: 20px;
+    text-align: center;
+}
+.premium-logo {
+    font-size: 60px;
+    color: var(--premium-gold);
+    text-shadow: 0 0 30px rgba(255,215,0,0.4);
+    margin-bottom: 20px;
+}
+.features-list {
+    text-align: left;
+    margin: 25px 0;
+    background: var(--glass-bg);
+    padding: 20px;
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(255,215,0,0.2);
+}
+.features-list li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+}
+.features-list i {
+    color: var(--premium-gold);
+    font-size: 18px;
+}
+.plan-card {
+    background: linear-gradient(145deg, #2a2a35, #1a1a24);
+    border: 1px solid rgba(255,215,0,0.5);
+    padding: 20px;
+    border-radius: var(--border-radius-lg);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+.plan-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    margin: 10px 0;
+}
+.plan-price span { font-size: 14px; color: var(--text-muted); }
+.buy-premium-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #ffd700, #ffaa00);
+    color: #000;
+    font-weight: 800;
+    font-size: 16px;
+    text-transform: uppercase;
+}
