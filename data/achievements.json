@@ -1,1 +1,38 @@
- 
+[
+  {
+    "id": "first_steps",
+    "title": "Birinchi Qadam",
+    "description": "Ilovada muvaffaqiyatli ro'yxatdan o'ting",
+    "reward_coins": 100,
+    "reward_xp": 50,
+    "icon": "fa-user-plus",
+    "secret": false
+  },
+  {
+    "id": "quiz_master_1",
+    "title": "Viktorina Bilimdoni I",
+    "description": "Ketma-ket 10 ta savolga to'g'ri javob bering",
+    "reward_coins": 250,
+    "reward_xp": 150,
+    "icon": "fa-brain",
+    "secret": false
+  },
+  {
+    "id": "anime_lover",
+    "title": "Haqiqiy Otaku",
+    "description": "Katalogdan 5 ta animeni sevimlilar ro'yxatiga qo'shing",
+    "reward_coins": 150,
+    "reward_xp": 100,
+    "icon": "fa-heart",
+    "secret": false
+  },
+  {
+    "id": "rich_buyer",
+    "title": "Tijoratchi",
+    "description": "Do'kondan birinchi marta narsa sotib oling",
+    "reward_coins": 0,
+    "reward_xp": 200,
+    "icon": "fa-shopping-bag",
+    "secret": false
+  }
+]
