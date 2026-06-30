@@ -1,26 +1,42 @@
 [
   {
-    "rank_id": "bronze",
-    "name": "Bronza Otaku",
-    "min_points": 0,
-    "color": "#cd7f32"
+    "rank_tier": "wood",
+    "name": "Yog'och Liga",
+    "min_elo": 0,
+    "max_elo": 499,
+    "color": "#8b5a2b",
+    "reward_multiplier": 1.0
   },
   {
-    "rank_id": "silver",
-    "name": "Kumush Otaku",
-    "min_points": 1000,
-    "color": "#c0c0c0"
+    "rank_tier": "bronze",
+    "name": "Bronza Liga",
+    "min_elo": 500,
+    "max_elo": 1499,
+    "color": "#cd7f32",
+    "reward_multiplier": 1.2
   },
   {
-    "rank_id": "gold",
-    "name": "Oltin Ekspert",
-    "min_points": 5000,
-    "color": "#ffd700"
+    "rank_tier": "silver",
+    "name": "Kumush Liga",
+    "min_elo": 1500,
+    "max_elo": 2999,
+    "color": "#c0c0c0",
+    "reward_multiplier": 1.5
   },
   {
-    "rank_id": "legend",
-    "name": "Afsonaviy Sayyan",
-    "min_points": 15000,
-    "color": "#00ffff"
+    "rank_tier": "gold",
+    "name": "Oltin Liga",
+    "min_elo": 3000,
+    "max_elo": 5999,
+    "color": "#ffd700",
+    "reward_multiplier": 2.0
+  },
+  {
+    "rank_tier": "diamond",
+    "name": "Brilliant Liga",
+    "min_elo": 6000,
+    "max_elo": 99999,
+    "color": "#00ffff",
+    "reward_multiplier": 3.0
   }
 ]
