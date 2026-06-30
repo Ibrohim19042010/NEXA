@@ -1,1 +1,26 @@
-
+[
+  {
+    "rank_id": "bronze",
+    "name": "Bronza Otaku",
+    "min_points": 0,
+    "color": "#cd7f32"
+  },
+  {
+    "rank_id": "silver",
+    "name": "Kumush Otaku",
+    "min_points": 1000,
+    "color": "#c0c0c0"
+  },
+  {
+    "rank_id": "gold",
+    "name": "Oltin Ekspert",
+    "min_points": 5000,
+    "color": "#ffd700"
+  },
+  {
+    "rank_id": "legend",
+    "name": "Afsonaviy Sayyan",
+    "min_points": 15000,
+    "color": "#00ffff"
+  }
+]
