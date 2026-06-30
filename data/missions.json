@@ -1,1 +1,26 @@
- 
+[
+  {
+    "id": "daily_login",
+    "text": "Ilovaga kunlik kirish",
+    "target_count": 1,
+    "reward_coins": 20,
+    "reward_xp": 10,
+    "type": "daily"
+  },
+  {
+    "id": "play_quizzes",
+    "text": "Viktorinada 3 marta o'ynash",
+    "target_count": 3,
+    "reward_coins": 60,
+    "reward_xp": 30,
+    "type": "daily"
+  },
+  {
+    "id": "watch_ad",
+    "text": "Haftalik 5 ta anime epizodini ko'rish",
+    "target_count": 5,
+    "reward_coins": 150,
+    "reward_xp": 70,
+    "type": "weekly"
+  }
+]
