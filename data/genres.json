@@ -1,9 +1,11 @@
 [
-  {"id": "action", "name": "Eshn (Action)", "icon": "fa-bolt"},
-  {"id": "adventure", "name": "Sarguzasht", "icon": "fa-compass"},
-  {"id": "comedy", "name": "Komediya", "icon": "fa-laugh-wink"},
-  {"id": "fantasy", "name": "Fantaziya", "icon": "fa-wand-magic-sparkles"},
-  {"id": "romance", "name": "Romantika", "icon": "fa-heart"},
-  {"id": "shounen", "name": "Shounen", "icon": "fa-fire"},
-  {"id": "seinen", "name": "Seinen", "icon": "fa-skull-crossbones"}
+  {"id": "action", "name_uz": "Eshn (Action)", "name_en": "Action", "color": "#ff4757", "icon": "fa-bolt"},
+  {"id": "adventure", "name_uz": "Sarguzasht", "name_en": "Adventure", "color": "#2ed573", "icon": "fa-compass"},
+  {"id": "comedy", "name_uz": "Komediya", "name_en": "Comedy", "color": "#ffa502", "icon": "fa-laugh-squint"},
+  {"id": "fantasy", "name_uz": "Fantaziya", "name_en": "Fantasy", "color": "#9b59b6", "icon": "fa-wand-magic-sparkles"},
+  {"id": "isekai", "name_uz": "Isekai (Boshqa olam)", "name_en": "Isekai", "color": "#1e90ff", "icon": "fa-door-open"},
+  {"id": "romance", "name_uz": "Romantika", "name_en": "Romance", "color": "#ff6b81", "icon": "fa-heart"},
+  {"id": "mecha", "name_uz": "Mexa (Robotlar)", "name_en": "Mecha", "color": "#747d8c", "icon": "fa-robot"},
+  {"id": "sports", "name_uz": "Sport", "name_en": "Sports", "color": "#eccc68", "icon": "fa-volleyball"},
+  {"id": "thriller", "name_uz": "Triller/Dahshat", "name_en": "Thriller", "color": "#2f3542", "icon": "fa-ghost"}
 ]
