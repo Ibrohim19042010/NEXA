@@ -1,1 +1,53 @@
- 
+/* css/profile.css */
+.profile-header {
+    padding: 30px 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(255,255,255,0.05), transparent);
+}
+.profile-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    margin-bottom: 15px;
+}
+.profile-name { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
+.profile-id { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: 100%;
+}
+.stat-box {
+    background: var(--glass-bg);
+    padding: 15px;
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    border: 1px solid var(--glass-border);
+}
+.stat-box i { font-size: 24px; margin-bottom: 8px; }
+.stat-box.coins i { color: #f39c12; }
+.stat-box.xp i { color: #9b59b6; }
+.stat-box .value { font-size: 18px; font-weight: bold; }
+.profile-menu { margin-top: 20px; padding: 0 15px; }
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: var(--glass-bg);
+    border-radius: var(--border-radius-md);
+    margin-bottom: 10px;
+    transition: 0.2s;
+}
+.menu-item:active { transform: scale(0.98); }
+.menu-item i:first-child { width: 30px; font-size: 18px; color: var(--accent-blue); }
+.menu-item i:last-child { margin-left: auto; color: var(--text-muted); }
