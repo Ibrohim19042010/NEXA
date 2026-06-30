@@ -1,17 +1,36 @@
 {
-  "app_version": "1.0.0",
-  "maintenance_mode": false,
-  "currency_name": "NexaCoin",
-  "quiz_timer_seconds": 20,
-  "max_daily_energy": 5,
-  "energy_regen_time_minutes": 30,
-  "social_links": {
-    "telegram_channel": "https://t.me/nexa_anime",
-    "support_bot": "https://t.me/nexa_support_bot"
+  "app_info": {
+    "name": "NEXA Anime",
+    "version": "1.0.0-beta",
+    "author": "The End",
+    "description": "Telegramdagi eng zo'r anime va o'yin platformasi"
   },
-  "features": {
-    "enable_shop": true,
-    "enable_chat_ai": true,
-    "enable_leaderboard": true
+  "status": {
+    "is_maintenance": false,
+    "maintenance_message": "Tez orada qaytamiz! Tizimda yangilanishlar olib borilmoqda."
+  },
+  "economy": {
+    "currency_symbol": "🪙",
+    "currency_name": "NexaCoin",
+    "starting_coins": 100,
+    "premium_price_usd": 2.99
+  },
+  "gameplay": {
+    "quiz_time_limit": 15,
+    "points_per_correct_answer": 10,
+    "points_penalty_wrong": -2,
+    "max_energy": 5,
+    "energy_regen_minutes": 20
+  },
+  "socials": {
+    "official_channel": "https://t.me/nexa_anime_uz",
+    "support_bot": "https://t.me/nexa_support",
+    "website": "https://nexa-anime.uz"
+  },
+  "toggles": {
+    "show_ads": true,
+    "enable_leaderboard": true,
+    "allow_chat": true,
+    "enable_daily_rewards": true
   }
 }
