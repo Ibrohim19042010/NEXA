@@ -1,1 +1,52 @@
- 
+/* css/admin.css */
+.admin-panel {
+    padding: 20px;
+}
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--glass-border);
+}
+.admin-stat-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.admin-card {
+    background: var(--glass-bg);
+    padding: 15px;
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+.admin-card i {
+    font-size: 24px;
+    color: var(--accent-blue);
+    margin-bottom: 10px;
+}
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+.admin-table th, .admin-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--glass-border);
+    font-size: 13px;
+}
+.admin-table th {
+    background: rgba(255,255,255,0.05);
+    color: var(--primary-color);
+}
+.btn-action {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    background: var(--accent-blue);
+    color: #fff;
+}
