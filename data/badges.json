@@ -2,19 +2,37 @@
   {
     "id": "badge_rookie",
     "name": "Yangi Jangchi",
-    "description": "Loyihaga qo'shilgan barcha yangi foydalanuvchilarga beriladi",
-    "image_path": "assets/images/badges/rookie.png"
+    "description": "NEXA platformasiga endigina qadam qo'ygan foydalanuvchi.",
+    "rarity": "common",
+    "color_theme": "#808080",
+    "image_path": "assets/images/badges/rookie.png",
+    "obtain_condition": "Ro'yxatdan o'tish"
+  },
+  {
+    "id": "badge_beta_tester",
+    "name": "Beta Sinovchi",
+    "description": "Ilova ommaga taqdim etilishidan oldin uni sinab ko'rgan afsonalar.",
+    "rarity": "epic",
+    "color_theme": "#9b59b6",
+    "image_path": "assets/images/badges/beta_tester.png",
+    "obtain_condition": "Dastlabki 1000 ta obunachidan biri bo'lish"
   },
   {
     "id": "badge_donator",
-    "name": "Homiymiz",
-    "description": "Premium VIP statusini sotib olgan elita a'zolar uchun",
-    "image_path": "assets/images/badges/vip_star.png"
+    "name": "Sodiq Homiy",
+    "description": "Loyihani moliyaviy qo'llab-quvvatlagan va VIP maqomini olganlar.",
+    "rarity": "legendary",
+    "color_theme": "#ffd700",
+    "image_path": "assets/images/badges/vip_star.png",
+    "obtain_condition": "Premium sotib olish"
   },
   {
-    "id": "badge_champion",
-    "name": "Top-1 Lider",
-    "description": "Haftalik peshqadamlar jadvalida 1-o'rinni egallagan shaxs",
-    "image_path": "assets/images/badges/champion.png"
+    "id": "badge_bug_hunter",
+    "name": "Xato Ovchisi",
+    "description": "Dasturdagi xatoliklarni topib, adminga xabar bergan foydalanuvchi.",
+    "rarity": "mythic",
+    "color_theme": "#ff4444",
+    "image_path": "assets/images/badges/bug_hunter.png",
+    "obtain_condition": "Admin tomonidan maxsus beriladi"
   }
 ]
