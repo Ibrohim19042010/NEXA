@@ -1,1 +1,46 @@
- 
+/* css/quiz.css */
+.quiz-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - var(--nav-height));
+}
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.timer-box {
+    background: rgba(255, 50, 50, 0.1);
+    color: #ff4444;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    border: 1px solid rgba(255, 50, 50, 0.3);
+}
+.question-text {
+    font-size: 20px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.option-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-md);
+    color: #fff;
+    font-size: 15px;
+    text-align: left;
+    transition: var(--transition-fast);
+}
+.option-btn:hover { background: rgba(255,255,255,0.1); }
+.option-btn.correct { background: rgba(0, 255, 136, 0.2); border-color: var(--primary-color); color: var(--primary-color); }
+.option-btn.wrong { background: rgba(255, 50, 50, 0.2); border-color: #ff4444; color: #ff4444; }
