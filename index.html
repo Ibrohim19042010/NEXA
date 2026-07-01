@@ -2,13 +2,17 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NEXA Anime App</title>
+    <!-- Mobil qurilmalarda zo'rlashtirmasdan, chiroyli qoplab turishi uchun -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXA Anime</title>
 
-    <!-- Tashqi resurslar -->
+    <!-- Google Fonts (Poppins shrifti) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome (Ikonkalar) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- CSS fayllarni ulash -->
+    <!-- Sizning CSS faylingiz -->
     <link rel="stylesheet" href="css/style.css">
     
     <!-- Telegram WebApp SDK -->
@@ -16,70 +20,156 @@
 </head>
 <body>
 
-    <!-- Ilova yuklanishi uchun konteyner -->
-    <div id="app">
-        
-        <!-- Yuqori qism (Header/Profil) -->
-        <header class="profile-header">
-            <img src="assets/images/avatars/default.png" alt="Avatar" class="avatar-img" id="user-avatar">
-            <div class="user-info">
-                <h2 id="user-name">Ibrohim</h2>
-                <p>E-Rank Hunter <span id="user-xp">0 / 100 XP</span></p>
-                <span class="coin-badge"><i class="fas fa-coins"></i> <span id="user-coins">0</span> Coin</span>
-            </div>
-        </header>
-
-        <!-- Asosiy mazmun qismi -->
-        <main id="main-content">
-            <!-- Kunlik bonuslar -->
-            <section class="section-container">
-                <div class="card">
-                    <h3><i class="fas fa-calendar-check"></i> Daily Bonus</h3>
-                    <p>7 kunlik mukofot</p>
-                </div>
-            </section>
-
-            <!-- Kunlik vazifalar -->
-            <section class="section-container">
-                <h3 class="section-title"><i class="fas fa-tasks"></i> Daily Mission</h3>
-                <div class="card">
-                    <p>0/3 bajarildi</p>
-                </div>
-            </section>
-
-            <!-- Trending Anime -->
-            <section class="section-container">
-                <h3 class="section-title"><i class="fas fa-fire"></i> Trending Anime</h3>
-                <div class="scroll-row">
-                    <div class="anime-card">
-                        <img src="assets/images/anime/naruto.jpg" alt="Naruto">
-                        <div class="title">Naruto</div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Pastki navigatsiya menyusi -->
-        <nav class="bottom-nav">
-            <a href="#" class="nav-item active" data-page="home">
-                <i class="fas fa-home"></i> Asosiy
-            </a>
-            <a href="#" class="nav-item" data-page="catalog">
-                <i class="fas fa-compass"></i> Katalog
-            </a>
-            <a href="#" class="nav-item" data-page="quiz">
-                <i class="fas fa-brain"></i> Viktorina
-            </a>
-            <a href="#" class="nav-item" data-page="chat">
-                <i class="fas fa-comments"></i> Chat
-            </a>
-            <a href="#" class="nav-item" data-page="profile">
-                <i class="fas fa-user"></i> Profil
-            </a>
-        </nav>
+    <!-- YUKLANISH EKRANI (Preloader) -->
+    <div id="preloader" class="preloader">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>NEXA yuklanmoqda...</p>
     </div>
 
-    <!-- Asosiy mantiqiy JS faylni ulash -->
+    <!-- ASOSIY ILOVA KONTEYNERI -->
+    <div id="app-container" style="display: none;">
+        
+        <!-- BARCHA SAHIFALAR SHU YERDA ALMASHADI -->
+        <main id="main-content">
+            
+            <!-- ==========================================
+                 1. ASOSIY SAHIFA (HOME)
+            =========================================== -->
+            <div id="page-home" class="page-view active">
+                
+                <!-- Profil qismi -->
+                <header class="profile-header">
+                    <div class="profile-left">
+                        <img src="assets/images/avatars/default.png" alt="Avatar" id="user-avatar" class="avatar-img">
+                        <div class="user-info">
+                            <h2 id="user-name">Ibrohim <i class="fas fa-check-circle verified-icon" style="color: #00D2FF; font-size: 14px;"></i></h2>
+                            <p id="user-rank">E-Rank Hunter <span class="xp-text">0 / 100 XP</span></p>
+                        </div>
+                    </div>
+                    <div class="profile-right">
+                        <div class="coin-badge">
+                            <i class="fas fa-coins"></i> <span id="user-coins">0</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Asosiy Kontent qismi -->
+                <div class="content-padding">
+                    
+                    <!-- 2 ta karta yonma-yon (Grid) -->
+                    <div class="grid-2-cols mt-20">
+                        <div class="card action-card">
+                            <h3><i class="fas fa-calendar-alt text-primary"></i> Daily Bonus</h3>
+                            <p>7 kunlik mukofot</p>
+                        </div>
+                        <div class="card action-card">
+                            <h3><i class="fas fa-tasks text-success"></i> Daily Mission</h3>
+                            <p>0/3 bajarildi</p>
+                        </div>
+                    </div>
+
+                    <!-- Tomosha qilishni davom ettirish -->
+                    <section class="mt-20">
+                        <h3 class="section-title"><i class="fas fa-play-circle"></i> Tomosha qilishni davom ettirish</h3>
+                        <div class="card">
+                            <p class="text-muted" style="font-size: 13px;">Hozircha chala ko'rilgan animelar yo'q.</p>
+                        </div>
+                    </section>
+
+                    <!-- Trending Anime -->
+                    <section class="mt-20">
+                        <h3 class="section-title"><i class="fas fa-fire text-danger"></i> Trending Anime</h3>
+                        <div class="scroll-row">
+                            <!-- JS ulanmaguncha rasm chiqmasa xato bermasligi uchun 'onerror' qo'shildi -->
+                            <div class="anime-card">
+                                <img src="assets/images/anime/naruto.jpg" alt="Naruto" onerror="this.src='https://via.placeholder.com/120x160/151A22/8A2BE2?text=Naruto'">
+                                <div class="title">Naruto</div>
+                            </div>
+                            <div class="anime-card">
+                                <img src="assets/images/anime/solo_leveling.jpg" alt="Solo Leveling" onerror="this.src='https://via.placeholder.com/120x160/151A22/8A2BE2?text=Solo+Leveling'">
+                                <div class="title">Solo Leveling</div>
+                            </div>
+                            <div class="anime-card">
+                                <img src="assets/images/anime/jujutsu.jpg" alt="Jujutsu Kaisen" onerror="this.src='https://via.placeholder.com/120x160/151A22/8A2BE2?text=Jujutsu'">
+                                <div class="title">Jujutsu Kaisen</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Premium Anime -->
+                    <section class="mt-20">
+                        <h3 class="section-title"><i class="fas fa-crown text-warning"></i> Premium Anime <span class="badge-new">NEW</span></h3>
+                        <div class="card premium-card">
+                            <p class="text-muted" style="font-size: 13px;">Faqat VIP obunachilar uchun maxsus seriyalar.</p>
+                        </div>
+                    </section>
+
+                    <!-- Weekly Quiz Event -->
+                    <section class="mt-20 mb-30">
+                        <div class="card event-card">
+                            <h3><i class="fas fa-brain text-primary"></i> Weekly Quiz Event</h3>
+                            <p class="mt-10" style="font-size: 13px;">20 ta savolga javob bering va katta hajmdagi Coin yutib oling!</p>
+                            <div class="event-footer mt-10">
+                                <span class="text-muted" style="font-size: 12px;">Qolgan urinishlar: <strong style="color: white;">3/3</strong></span>
+                                <button class="btn-play">Boshlash</button>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 2. BOSHQA SAHIFALAR (Yashirin turadi)
+            =========================================== -->
+            <div id="page-catalog" class="page-view" style="display: none;">
+                <div class="content-padding mt-20"><h2>Katalog</h2></div>
+            </div>
+            
+            <div id="page-quiz" class="page-view" style="display: none;">
+                <div class="content-padding mt-20"><h2>Viktorina</h2></div>
+            </div>
+            
+            <div id="page-chat" class="page-view" style="display: none;">
+                <div class="content-padding mt-20"><h2>Chat</h2></div>
+            </div>
+            
+            <div id="page-profile" class="page-view" style="display: none;">
+                <div class="content-padding mt-20"><h2>Profil</h2></div>
+            </div>
+
+        </main>
+
+        <!-- PASTKI MENYU (Bottom Navigation) -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-target="page-home">
+                <i class="fas fa-home"></i>
+                <span>Asosiy</span>
+            </a>
+            <a href="#" class="nav-item" data-target="page-catalog">
+                <i class="fas fa-compass"></i>
+                <span>Katalog</span>
+            </a>
+            <!-- Markaziy qavariq tugma (O'yin uchun) -->
+            <a href="#" class="nav-item center-nav" data-target="page-quiz">
+                <div class="floating-btn">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <span class="mt-5">O'yin</span>
+            </a>
+            <a href="#" class="nav-item" data-target="page-chat">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+            </a>
+            <a href="#" class="nav-item" data-target="page-profile">
+                <i class="fas fa-user"></i>
+                <span>Profil</span>
+            </a>
+        </nav>
+
+    </div>
+
+    <!-- Asosiy Mantiq (JS) - Sahifalar almashishi shu yerdan boshqariladi -->
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
