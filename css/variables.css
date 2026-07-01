@@ -1,26 +1,126 @@
-/* css/variables.css */
-:root {
-    /* Asosiy ranglar */
-    --bg-color-main: #0f0f13;
-    --primary-color: #00ff88;
-    --primary-hover: #00cc6a;
-    --accent-blue: #007bff;
-    --premium-gold: #ffd700;
-    
-    /* Matn ranglari */
-    --text-light: #ffffff;
-    --text-muted: #a0a0a0;
-    --text-dark: #121212;
+/* ============================================================================
+   NEXA - CSS VARIABLES & THEME CONFIGURATION
+   ============================================================================ */
 
-    /* Glassmorphism fonlar */
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    
-    /* O'lchamlar va boshqalar */
-    --nav-height: 65px;
-    --border-radius-sm: 8px;
-    --border-radius-md: 15px;
-    --border-radius-lg: 25px;
-    --transition-fast: 0.2s ease;
-    --transition-normal: 0.3s ease;
+:root {
+  /* Colors - Dark Theme */
+  --color-primary: #00D2FF;
+  --color-primary-dark: #00A8D8;
+  --color-primary-light: #6FFBFF;
+  
+  --color-secondary: #FF00FF;
+  --color-secondary-dark: #D400D4;
+  --color-secondary-light: #FF66FF;
+  
+  --color-accent: #FFD700;
+  --color-accent-dark: #DAA500;
+  
+  /* Backgrounds */
+  --bg-primary: #0A0E27;
+  --bg-secondary: #151B3F;
+  --bg-tertiary: #1F2744;
+  --bg-overlay: rgba(10, 14, 39, 0.8);
+  
+  /* Glass Effect */
+  --glass-bg: rgba(31, 39, 68, 0.4);
+  --glass-border: rgba(0, 210, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 210, 255, 0.1);
+  
+  /* Text Colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: #B0B8D4;
+  --text-tertiary: #7A82A0;
+  --text-danger: #FF4757;
+  --text-success: #2ECC71;
+  --text-warning: #FFB347;
+  
+  /* Ranks */
+  --rank-e: #808080;
+  --rank-d: #90EE90;
+  --rank-c: #87CEEB;
+  --rank-b: #DDA0DD;
+  --rank-a: #FFB347;
+  --rank-s: #FF6B6B;
+  --rank-ss: #FFD700;
+  --rank-national: #FF00FF;
+  --rank-shadow: #1A1A1A;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 2rem;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+  
+  /* Z-Index */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal: 1000;
+  --z-toast: 2000;
+  
+  /* Shadow */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.25);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
+
+/* Utility Classes */
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
+.text-danger { color: var(--text-danger); }
+.text-success { color: var(--text-success); }
+.text-warning { color: var(--text-warning); }
+
+.bg-primary { background-color: var(--bg-primary); }
+.bg-secondary { background-color: var(--bg-secondary); }
+.bg-tertiary { background-color: var(--bg-tertiary); }
+
+.text-primary-color { color: var(--color-primary); }
+.text-secondary-color { color: var(--color-secondary); }
+.text-accent-color { color: var(--color-accent); }
+
+/* Spacing Utilities */
+.mt-5 { margin-top: 0.25rem; }
+.mt-10 { margin-top: 0.5rem; }
+.mt-20 { margin-top: 1rem; }
+.mt-30 { margin-top: 1.5rem; }
+.mt-40 { margin-top: 2rem; }
+
+.mb-5 { margin-bottom: 0.25rem; }
+.mb-10 { margin-bottom: 0.5rem; }
+.mb-20 { margin-bottom: 1rem; }
+.mb-30 { margin-bottom: 1.5rem; }
+.mb-40 { margin-bottom: 2rem; }
+
+.px-10 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.px-20 { padding-left: 1rem; padding-right: 1rem; }
+.py-10 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-20 { padding-top: 1rem; padding-bottom: 1rem; }
+
+.text-muted { color: var(--text-tertiary); }
+.text-bold { font-weight: 700; }
+.text-center { text-align: center; }
+
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-col { display: flex; flex-direction: column; }
+.gap-10 { gap: 0.5rem; }
+.gap-20 { gap: 1rem; }
