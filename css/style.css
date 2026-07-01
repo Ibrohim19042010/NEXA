@@ -178,3 +178,114 @@ body {
   text-shadow: 0 0 10px var(--primary-color);
   transform: translateY(-3px);
 }
+/* =========================================
+   QO'SHIMCHA ELEMENTLAR VA YORDAMCHI KLASSLAR
+========================================= */
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mb-30 { margin-bottom: 30px; }
+.text-primary { color: var(--primary-color); }
+.text-success { color: var(--success); }
+.text-danger { color: var(--danger); }
+.text-warning { color: var(--warning); }
+
+.content-padding {
+  padding: 0 15px;
+  padding-bottom: 90px; /* Pastki menyu yopib qo'ymasligi uchun */
+}
+
+/* Header joylashuvi */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+}
+.profile-left {
+  display: flex;
+  align-items: center;
+}
+
+/* 2 ta karta yonma-yon */
+.grid-2-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+.action-card h3 {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.action-card p {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Premium Badge */
+.badge-new {
+  background: var(--danger);
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+/* Event Karta Footer */
+.event-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.btn-play {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+}
+
+/* Yuklanish ekrani */
+.preloader {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: var(--bg-main);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: var(--primary-color);
+  font-size: 40px;
+}
+.preloader p {
+  font-size: 16px;
+  margin-top: 15px;
+  color: var(--text-main);
+}
+
+/* Markaziy qavariq tugma (Viktorina uchun) */
+.center-nav {
+  position: relative;
+}
+.floating-btn {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+  color: white;
+  font-size: 24px !important;
+}
+.center-nav span {
+  margin-top: 25px;
+}
