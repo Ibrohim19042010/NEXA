@@ -1,11 +1,6 @@
-
-// js/app.js
-
-// Navigatsiya funksiyasini chaqirib olamiz
-import { initNavigation } from './navigation.js';
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Agar dastur Telegram ichida ochilsa, ekranni to'liq egallashini ta'minlaymiz
+    
+    // Telegram WebApp sozlamalari
     if (window.Telegram && window.Telegram.WebApp) {
         const tg = window.Telegram.WebApp;
         tg.expand(); 
@@ -14,20 +9,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const preloader = document.getElementById('preloader');
     const appContainer = document.getElementById('app-container');
 
-    // Sun'iy yuklanish jarayoni (baza ulanmaguncha 1.5 soniya kutib ochadi)
+    // Navigatsiya mexanizmi
+    function initNavigation() {
+        const navItems = document.querySelectorAll('.nav-item');
+        const pages = document.querySelectorAll('.page-view');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault(); 
+                const targetPageId = item.getAttribute('data-target');
+                
+                if (!targetPageId) return;
+
+                navItems.forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+
+                pages.forEach(page => {
+                    page.style.display = 'none';
+                    page.classList.remove('active');
+                });
+
+                const targetPage = document.getElementById(targetPageId);
+                if (targetPage) {
+                    targetPage.style.display = 'block';
+                    setTimeout(() => {
+                        targetPage.classList.add('active');
+                    }, 50);
+                }
+            });
+        });
+    }
+
+    // Preloaderni tugatish va ilovani ochish
     setTimeout(() => {
-        // 1. Preloaderni yashirish
         if (preloader) {
             preloader.style.display = 'none';
         }
-        
-        // 2. Asosiy ilovani ekranga chiqarish
         if (appContainer) {
             appContainer.style.display = 'block';
         }
-
-        // 3. Pastki menyudagi tugmalar ishlashini ta'minlash
         initNavigation();
-        
-    }, 1500); // 1500 millisoniya (1.5 soniya)
+    }, 1500); 
 });
